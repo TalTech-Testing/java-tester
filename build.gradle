@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'ee.ttu.java.studenttester'
+version '2.0'
+
+sourceCompatibility = 1.11
+mainClassName = 'ee.ttu.java.studenttester.core.StudentTester'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.puppycrawl.tools', name: 'checkstyle', version: '8.3'
+    compile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.testng', name: 'testng', version: '6.14.3'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
+
+    testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
+
+}
+
+test {
+    useTestNG()
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+}
+
+jar {
+    dependsOn test
+    manifest {
+        attributes 'Main-Class': mainClassName,
+                'Implementation-Title': 'StudentTester',
+                'Implementation-Version': version + ', build ' + new Date().format('yyyyMMdd_HHmmss'),
+                'Built-By': System.getProperty("user.name")
+    }
+    from {
+        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } } {
+        // signatures must be removed to create a fat jar
+        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    }
+}
