@@ -1,7 +1,7 @@
-package ee.ttu.java.studenttester.core.model.tests;
+package ee.ttu.java.studenttester.core.models.tests;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import ee.ttu.java.studenttester.core.annotations.Gradeable;
+import ee.ttu.java.studenttester.core.enums.TestResultType;
 import org.testng.ITestResult;
 
 import java.io.PrintWriter;
@@ -17,14 +17,22 @@ public class SingleResult {
 
     @JsonIgnore
     public UnitTestContext parentContext;
+
     @JsonIgnore
     public ITestResult originalResult;
 
-    public Gradeable metadata;
+    public TestResultType status = TestResultType.OTHER;
+
+    // GRADEABLE
+    public int weight;
+    public String description;
+    public boolean printExceptionMessage;
+    public boolean printStackTrace;
+
     public long timeElapsed;
 
-    public List<String> publicNotes = new ArrayList<>();
-    public List<String> privateNotes = new ArrayList<>();
+    //public List<String> publicNotes = new ArrayList<>();
+    //public List<String> privateNotes = new ArrayList<>();
     public List<String> groupsDependedUpon = new ArrayList<>();
     public List<String> methodsDependedUpon = new ArrayList<>();
 
@@ -46,6 +54,19 @@ public class SingleResult {
             exceptionMessage = t.getMessage();
         }
         name = originalResult.getName();
+
+        switch (originalResult.getStatus()) {
+            case ITestResult.SUCCESS:
+                status = TestResultType.PASSED;
+                break;
+            case ITestResult.FAILURE:
+                status = TestResultType.FAILED;
+                break;
+            case ITestResult.SKIP:
+                status = TestResultType.SKIPPED;
+                break;
+        }
+
         if (name.matches("^\\w+ on \\w+\\(\\S+\\)")) {
             // remove instance string
             name = name.substring(0, name.indexOf(" "));
@@ -60,45 +81,45 @@ public class SingleResult {
         try {
             var reportMode = NORMAL;
             if (parentContext != null) {
-                reportMode = parentContext.configuration.mode();
+                reportMode = parentContext.mode;
             }
 
             if (reportMode == MUTED || reportMode == ANONYMOUS) {
                 return "";
             }
             var builder = new StringBuilder();
-            switch (originalResult.getStatus()) {
-                case ITestResult.SUCCESS:
+            switch (status) {
+                case PASSED:
                     if (reportMode == VERBOSE || reportMode == MAXVERBOSE) {
                         builder.append(String.format("SUCCESS: %s\n\t%d msec%s, weight: %d unit%s\n",
                                 name, timeElapsed, timeElapsed == 1 ? "" : "s",
-                                metadata.weight(), metadata.weight() == 1 ? "" : "s"));
-                        if (!"".equals(metadata.description())) {
-                            builder.append(String.format("\tDescription: %s\n", metadata.description()));
+                                weight, weight == 1 ? "" : "s"));
+                        if (!"".equals(description)) {
+                            builder.append(String.format("\tDescription: %s\n", description));
                         }
                     }
                     break;
-                case ITestResult.FAILURE:
+                case FAILED:
                     builder.append(String.format("FAILURE: %s\n\t%d msec%s, weight: %d unit%s\n",
                             name, timeElapsed, timeElapsed == 1 ? "" : "s",
-                            metadata.weight(), metadata.weight() == 1 ? "" : "s"));
-                    if (!"".equals(metadata.description())) {
-                        builder.append(String.format("\tDescription: %s\n", metadata.description()));
+                            weight, weight == 1 ? "" : "s"));
+                    if (!"".equals(description)) {
+                        builder.append(String.format("\tDescription: %s\n", description));
                     }
                     builder.append(String.format("\tException type: %s\n", exceptionClass));
-                    if ((metadata.printExceptionMessage() || reportMode == VERBOSE || reportMode == MAXVERBOSE)
+                    if ((printExceptionMessage || reportMode == VERBOSE || reportMode == MAXVERBOSE)
                             && exceptionMessage != null) {
                         builder.append(String.format("\tDetailed information:  %s\n", exceptionMessage));
                     }
-                    if (metadata.printStackTrace() || reportMode == MAXVERBOSE) {
+                    if (printStackTrace || reportMode == MAXVERBOSE) {
                         builder.append(String.format("\tStack trace:  %s", stackTrace));
                     }
                     break;
-                case ITestResult.SKIP:
+                case SKIPPED:
                     builder.append(String.format("SKIPPED: %s\n\tWeight: %d unit%s\n",
-                            name, metadata.weight(), metadata.weight() == 1 ? "" : "s"));
-                    if (!"".equals(metadata.description())) {
-                        builder.append(String.format("\tDescription: %s\n", metadata.description()));
+                            name, weight, weight == 1 ? "" : "s"));
+                    if (!"".equals(description)) {
+                        builder.append(String.format("\tDescription: %s\n", description));
                     }
                     builder.append(String.format("\tTest skipped because:  %s\n", exceptionMessage));
 
@@ -114,7 +135,8 @@ public class SingleResult {
             }
             return builder.toString();
         } catch (NullPointerException e) {
-            return super.toString() + " (incomplete object)";
+            return super.toString() + " (incomplete object): " + e;
         }
     }
+
 }

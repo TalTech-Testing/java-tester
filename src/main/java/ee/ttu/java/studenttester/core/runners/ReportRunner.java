@@ -4,8 +4,10 @@ import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
 import ee.ttu.java.studenttester.core.annotations.Runnable;
+import ee.ttu.java.studenttester.core.enums.RunnerResultType;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
-import ee.ttu.java.studenttester.core.model.TesterContext;
+import ee.ttu.java.studenttester.core.models.TesterContext;
+import ee.ttu.java.studenttester.core.models.reports.PlainTextReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,25 +26,40 @@ public class ReportRunner extends BaseRunner {
     )
     private Boolean plainTextOutput = false;
 
+    @Parameter(
+            names = {"--plainTextOutputInJson", "-jsontxt"},
+            description = "Include the plain text report in JSON (overrides --plainTextOutput).",
+            order = 10
+    )
+    private Boolean plainTextOutputInJson = false;
+
+    private PlainTextReport plainTextReport = new PlainTextReport();
+
     public ReportRunner(TesterContext context) {
         super(context);
     }
 
     @Override
     public void run() throws StudentTesterException {
+        plainTextReport.result = RunnerResultType.SUCCESS;
         try {
-            if (plainTextOutput) {
-                String plainTextOutput = context.results.values().stream()
+            if (plainTextOutput || plainTextOutputInJson) {
+                plainTextReport.output = context.results.stream()
                         .map(Objects::toString)
                         .collect(Collectors.joining());
+            }
+            if (plainTextOutput && !plainTextOutputInJson) {
                 if (context.outputFile != null) {
                     var writer = new PrintWriter(context.outputFile);
-                    writer.write(plainTextOutput);
+                    writer.write(plainTextReport.output);
                     writer.close();
                 } else {
-                    System.out.print(plainTextOutput);
+                    System.out.print(plainTextReport.output);
                 }
             } else {
+                if (plainTextOutputInJson) {
+                    context.results.putResult(plainTextReport);
+                }
                 if (context.outputFile != null) {
                     mapper.writeValue(context.outputFile, context);
                 } else {

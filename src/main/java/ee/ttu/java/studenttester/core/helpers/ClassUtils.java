@@ -9,7 +9,7 @@ import static ee.ttu.java.studenttester.core.enums.TestClassType.*;
 
 public class ClassUtils {
 
-    public static String relativizeFile(final File file, final File relativizeAgainst) {
+    public static String relativizeFilePath(final File file, final File relativizeAgainst) {
         return relativizeAgainst.toURI().relativize(file.toURI()).getPath();
     }
 
@@ -20,7 +20,7 @@ public class ClassUtils {
      * @return classpath (some.path.File)
      */
     public static String filePathToClassPath(final File file, final File relativizeAgainst) {
-        return relativizeFile(file, relativizeAgainst)
+        return relativizeFilePath(file, relativizeAgainst)
                 .replace(".java", "")
                 .replace("/", ".");
     }

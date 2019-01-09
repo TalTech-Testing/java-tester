@@ -2,7 +2,7 @@ package ee.ttu.java.studenttester.core.runners;
 
 import ee.ttu.java.studenttester.core.BaseTest;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
-import ee.ttu.java.studenttester.core.model.reports.CheckStyleReport;
+import ee.ttu.java.studenttester.core.models.reports.CheckStyleReport;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -19,10 +19,10 @@ public class CheckStyleRunnerTest extends BaseTest {
     public void testNoFiles() throws Exception {
         runNew();
 
-        var report = (CheckStyleReport) context.results.get(Identifier.CHECKSTYLE);
+        var report = context.results.getResultByType(CheckStyleReport.class);
 
         assertEquals(report.checkStyleErrorCount, 0);
-        assertEquals(report.checkStyleResultMap.size(), 0);
+        assertEquals(report.errors.size(), 0);
     }
 
     @Test
@@ -30,11 +30,11 @@ public class CheckStyleRunnerTest extends BaseTest {
         moveResource("/tests/calculator/Calculator.java", context.contentRoot);
         runNew();
 
-        var report = (CheckStyleReport) context.results.get(Identifier.CHECKSTYLE);
+        var report = context.results.getResultByType(CheckStyleReport.class);
 
         assertTrue(report.checkStyleErrorCount > 0);
-        assertEquals(report.checkStyleResultMap.size(), 1);
-        assertEquals(report.checkStyleErrorCount, report.checkStyleResultMap.values().iterator().next().size());
+        assertEquals(report.errors.stream().map(e -> e.fileName).distinct().count(), 1);
+        assertEquals(report.checkStyleErrorCount, report.errors.size());
     }
 
     private void runNew() {

@@ -5,10 +5,11 @@ import com.puppycrawl.tools.checkstyle.*;
 import com.puppycrawl.tools.checkstyle.api.*;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
 import ee.ttu.java.studenttester.core.annotations.Runnable;
+import ee.ttu.java.studenttester.core.enums.RunnerResultType;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
-import ee.ttu.java.studenttester.core.listeners.CheckStyleResultListener;
-import ee.ttu.java.studenttester.core.model.reports.CheckStyleReport;
-import ee.ttu.java.studenttester.core.model.TesterContext;
+import ee.ttu.java.studenttester.core.interceptors.CheckStyleInterceptor;
+import ee.ttu.java.studenttester.core.models.reports.CheckStyleReport;
+import ee.ttu.java.studenttester.core.models.TesterContext;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -35,11 +36,11 @@ public class CheckStyleRunner extends BaseRunner {
     public void run() throws StudentTesterException {
         try {
             var files = new ArrayList<>(FileUtils.listFiles(context.contentRoot, JAVA_FILTER, true));
-            var listener = new CheckStyleResultListener();
-            checkStyleReport.checkStyleResultMap = listener.getErrorMap();
+            var listener = new CheckStyleInterceptor();
+            listener.setBasePath(context.contentRoot);
+            checkStyleReport.errors = listener.getErrors();
             checkStyleReport.checkStyleErrorCount = runCheckstyle(files, listener);
-            checkStyleReport.contentRoot = context.contentRoot;
-            listener.relativizePaths(context.contentRoot);
+            checkStyleReport.result = RunnerResultType.SUCCESS;
         } catch (CheckstyleException e) {
             LOG.severe("Checkstyle testing has failed");
             e.printStackTrace();
@@ -64,6 +65,9 @@ public class CheckStyleRunner extends BaseRunner {
 
         try {
             errorCounter = rootModule.process(files);
+        } catch (Exception e) {
+            checkStyleReport.result = RunnerResultType.UNKNOWN;
+            throw e;
         } finally {
             rootModule.destroy();
         }
@@ -72,6 +76,6 @@ public class CheckStyleRunner extends BaseRunner {
 
     @Override
     public void commit() {
-        context.results.put(Identifier.CHECKSTYLE, checkStyleReport);
+        context.results.putResult(checkStyleReport);
     }
 }

@@ -1,10 +1,10 @@
 package ee.ttu.java.studenttester.core;
 
 import com.google.common.io.Files;
-import ee.ttu.java.studenttester.core.model.reports.CompilerReport;
+import ee.ttu.java.studenttester.core.models.reports.CompilerReport;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
-import ee.ttu.java.studenttester.core.enums.CompilationResult;
-import ee.ttu.java.studenttester.core.model.TesterContext;
+import ee.ttu.java.studenttester.core.enums.RunnerResultType;
+import ee.ttu.java.studenttester.core.models.TesterContext;
 import ee.ttu.java.studenttester.core.runners.CompilerRunner;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
@@ -34,13 +34,13 @@ public abstract class BaseTest {
         context.contentRoot = Files.createTempDir();
     }
 
-    protected void compileAndExpect(CompilationResult expected) {
+    protected void compileAndExpect(RunnerResultType expected) {
         var compiler = new CompilerRunner(context);
         context.runners.put(Identifier.COMPILER, compiler);
         compiler.setCopyResources(false);
         compiler.run();
         compiler.commit();
-        Assert.assertEquals(((CompilerReport) context.results.get(Identifier.COMPILER)).compilationResult, expected);
+        Assert.assertEquals(context.results.getResultByType(CompilerReport.class).result, expected);
     }
 
     protected void moveResource(String resource, File destination) throws IOException {

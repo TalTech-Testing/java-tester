@@ -1,9 +1,12 @@
 package ee.ttu.java.studenttester.core.runners;
 
 import ee.ttu.java.studenttester.core.annotations.Runnable;
-import ee.ttu.java.studenttester.core.model.TesterContext;
+import ee.ttu.java.studenttester.core.models.TesterContext;
 import org.reflections.Reflections;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -13,7 +16,8 @@ public abstract class BaseRunner {
 
     public static final String[] JAVA_FILTER = new String[] { "java" };
 
-    TesterContext context;
+    protected TesterContext context;
+    private ClassLoader classLoader;
 
     BaseRunner(TesterContext context) {
         this.context = context;
@@ -30,6 +34,17 @@ public abstract class BaseRunner {
      * This method is invoked after run().
      */
     public abstract void commit();
+
+    /**
+     * Gets the class loader associated with the temporary directory.
+     * @return class loader
+     */
+    protected ClassLoader getClassLoader() throws MalformedURLException {
+        if (classLoader == null) {
+            classLoader = URLClassLoader.newInstance(new URL[] {context.tempRoot.toURI().toURL()});
+        }
+        return classLoader;
+    }
 
     public static Set<Class<?>> getRunnableClasses() {
         return new Reflections(BaseRunner.class.getPackageName())

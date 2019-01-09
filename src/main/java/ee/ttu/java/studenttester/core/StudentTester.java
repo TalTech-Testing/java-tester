@@ -4,7 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
 import ee.ttu.java.studenttester.core.helpers.ContextBuilder;
-import ee.ttu.java.studenttester.core.model.TesterContext;
+import ee.ttu.java.studenttester.core.models.TesterContext;
 
 import java.util.logging.Logger;
 

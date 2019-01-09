@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id "com.palantir.docker" version "0.21.0"
 }
 
 group 'ee.ttu.java.studenttester'
@@ -20,7 +21,6 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6'
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
-
     testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
 
 }
@@ -45,4 +45,10 @@ jar {
         // signatures must be removed to create a fat jar
         exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
     }
+}
+
+docker {
+    name "studenttester/" + version
+    files jar.outputs
+    copySpec.into("build/libs")
 }

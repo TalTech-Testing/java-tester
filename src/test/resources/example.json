@@ -1,367 +1,406 @@
 {
   "contentRoot" : "C:\\Users\\Andres\\Downloads\\StudentTester-master\\examples\\normal2\\contentRoot",
   "testRoot" : "C:\\Users\\Andres\\Downloads\\StudentTester-master\\examples\\normal2\\testRoot",
-  "results" : {
-    "CHECKSTYLE" : {
-      "count" : 39,
-      "errors" : {
-        "studentcode/StudentTesterExample.java" : [ {
-          "severityLevel" : "ERROR",
-          "lineNo" : 0,
-          "columnNo" : 0,
-          "message" : "File does not end with a newline."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 0,
-          "columnNo" : 0,
-          "message" : "Missing package-info.java file."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 3,
-          "columnNo" : 0,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 4,
-          "columnNo" : 0,
-          "message" : "Line has trailing spaces."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 4,
-          "columnNo" : 1,
-          "message" : "File contains tab characters (this is the first instance)."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 5,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 7,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 9,
-          "columnNo" : 0,
-          "message" : "Line has trailing spaces."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 10,
-          "columnNo" : 9,
-          "message" : "Class 'StudentTesterExample' looks like designed for extension (can be subclassed), but the method 'addNumbers' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'StudentTesterExample' final or making the method 'addNumbers' static/final/abstract/empty, or adding allowed annotation for the method."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 10,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 10,
-          "columnNo" : 31,
-          "message" : "Parameter a should be final."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 10,
-          "columnNo" : 38,
-          "message" : "Parameter b should be final."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 13,
-          "columnNo" : 0,
-          "message" : "Line has trailing spaces."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 14,
-          "columnNo" : 9,
-          "message" : "Class 'StudentTesterExample' looks like designed for extension (can be subclassed), but the method 'addNumbersNotSoWell' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'StudentTesterExample' final or making the method 'addNumbersNotSoWell' static/final/abstract/empty, or adding allowed annotation for the method."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 14,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 14,
-          "columnNo" : 40,
-          "message" : "Parameter a should be final."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 14,
-          "columnNo" : 47,
-          "message" : "Parameter b should be final."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 17,
-          "columnNo" : 0,
-          "message" : "Line has trailing spaces."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 18,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 22,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
+  "results" : [ {
+    "identifier" : "CHECKSTYLE",
+    "result" : "SUCCESS",
+    "code" : 0,
+    "count" : 39,
+    "errors" : [ {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 0,
+      "columnNo" : 0,
+      "message" : "File does not end with a newline."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 0,
+      "columnNo" : 0,
+      "message" : "Missing package-info.java file."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 3,
+      "columnNo" : 0,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 4,
+      "columnNo" : 0,
+      "message" : "Line has trailing spaces."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 4,
+      "columnNo" : 1,
+      "message" : "File contains tab characters (this is the first instance)."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 5,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 7,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 9,
+      "columnNo" : 0,
+      "message" : "Line has trailing spaces."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 10,
+      "columnNo" : 9,
+      "message" : "Class 'StudentTesterExample' looks like designed for extension (can be subclassed), but the method 'addNumbers' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'StudentTesterExample' final or making the method 'addNumbers' static/final/abstract/empty, or adding allowed annotation for the method."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 10,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 10,
+      "columnNo" : 31,
+      "message" : "Parameter a should be final."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 10,
+      "columnNo" : 38,
+      "message" : "Parameter b should be final."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 14,
+      "columnNo" : 0,
+      "message" : "Line has trailing spaces."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 15,
+      "columnNo" : 9,
+      "message" : "Class 'StudentTesterExample' looks like designed for extension (can be subclassed), but the method 'addNumbersNotSoWell' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'StudentTesterExample' final or making the method 'addNumbersNotSoWell' static/final/abstract/empty, or adding allowed annotation for the method."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 15,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 15,
+      "columnNo" : 40,
+      "message" : "Parameter a should be final."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 15,
+      "columnNo" : 47,
+      "message" : "Parameter b should be final."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 18,
+      "columnNo" : 0,
+      "message" : "Line has trailing spaces."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 19,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 24,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 0,
+      "columnNo" : 0,
+      "message" : "File does not end with a newline."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 3,
+      "columnNo" : 0,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 4,
+      "columnNo" : 0,
+      "message" : "Line has trailing spaces."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 4,
+      "columnNo" : 1,
+      "message" : "File contains tab characters (this is the first instance)."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 5,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 7,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 9,
+      "columnNo" : 0,
+      "message" : "Line has trailing spaces."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 10,
+      "columnNo" : 9,
+      "message" : "Class 'StudentTesterExample2' looks like designed for extension (can be subclassed), but the method 'addNumbers' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'StudentTesterExample2' final or making the method 'addNumbers' static/final/abstract/empty, or adding allowed annotation for the method."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 10,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 10,
+      "columnNo" : 31,
+      "message" : "Parameter a should be final."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 10,
+      "columnNo" : 38,
+      "message" : "Parameter b should be final."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 13,
+      "columnNo" : 0,
+      "message" : "Line has trailing spaces."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 14,
+      "columnNo" : 9,
+      "message" : "Class 'StudentTesterExample2' looks like designed for extension (can be subclassed), but the method 'addNumbersNotSoWell' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'StudentTesterExample2' final or making the method 'addNumbersNotSoWell' static/final/abstract/empty, or adding allowed annotation for the method."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 14,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 14,
+      "columnNo" : 40,
+      "message" : "Parameter a should be final."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 14,
+      "columnNo" : 47,
+      "message" : "Parameter b should be final."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 17,
+      "columnNo" : 0,
+      "message" : "Line has trailing spaces."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 18,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    }, {
+      "fileName" : "studentcode/StudentTesterExample2.java",
+      "severityLevel" : "ERROR",
+      "lineNo" : 22,
+      "columnNo" : 9,
+      "message" : "Missing a Javadoc comment."
+    } ]
+  }, {
+    "result" : "PARTIAL_SUCCESS",
+    "diagnosticList" : [ {
+      "kind" : "ERROR",
+      "lineNo" : 7,
+      "columnNo" : 16,
+      "message" : "invalid method declaration; return type required",
+      "code" : "compiler.err.invalid.meth.decl.ret.type.req",
+      "file" : "studentcode/StudentTesterExample2.java",
+      "hint" : "You must specify what the function returns.\n",
+      "affected" : "\tpublic StudentTesterExample() {",
+      "sensitive" : false
+    } ],
+    "identifier" : "COMPILER",
+    "code" : 0
+  }, {
+    "result" : "PARTIAL_SUCCESS",
+    "testContexts" : [ {
+      "unitTests" : [ {
+        "status" : "PASSED",
+        "weight" : 1,
+        "description" : "",
+        "printExceptionMessage" : false,
+        "printStackTrace" : false,
+        "timeElapsed" : 19,
+        "groupsDependedUpon" : [ ],
+        "methodsDependedUpon" : [ ],
+        "name" : "testSucceedWeightedAnnotation",
+        "stackTrace" : null,
+        "exceptionClass" : null,
+        "exceptionMessage" : null,
+        "stdout" : [ {
+          "thread" : "main",
+          "truncated" : false,
+          "content" : "adding stuff\r\n"
         } ],
-        "studentcode/StudentTesterExample2.java" : [ {
-          "severityLevel" : "ERROR",
-          "lineNo" : 0,
-          "columnNo" : 0,
-          "message" : "File does not end with a newline."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 3,
-          "columnNo" : 0,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 4,
-          "columnNo" : 0,
-          "message" : "Line has trailing spaces."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 4,
-          "columnNo" : 1,
-          "message" : "File contains tab characters (this is the first instance)."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 5,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 7,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 9,
-          "columnNo" : 0,
-          "message" : "Line has trailing spaces."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 10,
-          "columnNo" : 9,
-          "message" : "Class 'StudentTesterExample2' looks like designed for extension (can be subclassed), but the method 'addNumbers' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'StudentTesterExample2' final or making the method 'addNumbers' static/final/abstract/empty, or adding allowed annotation for the method."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 10,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 10,
-          "columnNo" : 31,
-          "message" : "Parameter a should be final."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 10,
-          "columnNo" : 38,
-          "message" : "Parameter b should be final."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 13,
-          "columnNo" : 0,
-          "message" : "Line has trailing spaces."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 14,
-          "columnNo" : 9,
-          "message" : "Class 'StudentTesterExample2' looks like designed for extension (can be subclassed), but the method 'addNumbersNotSoWell' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'StudentTesterExample2' final or making the method 'addNumbersNotSoWell' static/final/abstract/empty, or adding allowed annotation for the method."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 14,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 14,
-          "columnNo" : 40,
-          "message" : "Parameter a should be final."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 14,
-          "columnNo" : 47,
-          "message" : "Parameter b should be final."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 17,
-          "columnNo" : 0,
-          "message" : "Line has trailing spaces."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 18,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
-        }, {
-          "severityLevel" : "ERROR",
-          "lineNo" : 22,
-          "columnNo" : 9,
-          "message" : "Missing a Javadoc comment."
+        "stderr" : [ ]
+      }, {
+        "status" : "FAILED",
+        "weight" : 1,
+        "description" : "",
+        "printExceptionMessage" : false,
+        "printStackTrace" : false,
+        "timeElapsed" : 525,
+        "groupsDependedUpon" : [ ],
+        "methodsDependedUpon" : [ ],
+        "name" : "testHangHorribly",
+        "stackTrace" : "org.junit.runners.model.TestTimedOutException: test timed out after 500 milliseconds\r\n\tat studentcode.StudentTesterExample.hangHorribly(StudentTesterExample.java:25)\r\n\tat testcode.JUnitTest.testHangHorribly(JUnitTest.java:32)\r\n\tat java.base@11.0.1/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base@11.0.1/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base@11.0.1/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base@11.0.1/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat app//org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\r\n\tat app//org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\r\n\tat app//org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\r\n\tat app//org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\r\n\tat app//org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:298)\r\n\tat app//org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:292)\r\n\tat java.base@11.0.1/java.util.concurrent.FutureTask.run(FutureTask.java:264)\r\n\tat java.base@11.0.1/java.lang.Thread.run(Thread.java:834)\r\n",
+        "exceptionClass" : "org.junit.runners.model.TestTimedOutException",
+        "exceptionMessage" : "test timed out after 500 milliseconds",
+        "stdout" : [ ],
+        "stderr" : [ ]
+      }, {
+        "status" : "PASSED",
+        "weight" : 1,
+        "description" : "",
+        "printExceptionMessage" : false,
+        "printStackTrace" : false,
+        "timeElapsed" : 18,
+        "groupsDependedUpon" : [ ],
+        "methodsDependedUpon" : [ ],
+        "name" : "testSucceedNoAnnotation",
+        "stackTrace" : null,
+        "exceptionClass" : null,
+        "exceptionMessage" : null,
+        "stdout" : [ {
+          "thread" : "main",
+          "truncated" : false,
+          "content" : "adding stuff\r\n"
+        } ],
+        "stderr" : [ ]
+      }, {
+        "status" : "FAILED",
+        "weight" : 1,
+        "description" : "",
+        "printExceptionMessage" : false,
+        "printStackTrace" : false,
+        "timeElapsed" : 22,
+        "groupsDependedUpon" : [ ],
+        "methodsDependedUpon" : [ ],
+        "name" : "testFailNoAnnotation",
+        "stackTrace" : "java.lang.AssertionError: expected:<5> but was:<6>\r\n\tat org.junit.Assert.fail(Assert.java:88)\r\n\tat org.junit.Assert.failNotEquals(Assert.java:834)\r\n\tat org.junit.Assert.assertEquals(Assert.java:645)\r\n\tat org.junit.Assert.assertEquals(Assert.java:631)\r\n\tat testcode.JUnitTest.testFailNoAnnotation(JUnitTest.java:22)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\r\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\r\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\r\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\r\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\r\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\r\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\r\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\r\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\r\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\r\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:115)\r\n\tat org.testng.junit.JUnit4TestRunner.start(JUnit4TestRunner.java:82)\r\n\tat org.testng.junit.JUnit4TestRunner.run(JUnit4TestRunner.java:70)\r\n\tat org.testng.TestRunner$1.run(TestRunner.java:570)\r\n\tat org.testng.TestRunner.runJUnitWorkers(TestRunner.java:717)\r\n\tat org.testng.TestRunner.privateRunJUnit(TestRunner.java:601)\r\n\tat org.testng.TestRunner.run(TestRunner.java:502)\r\n\tat org.testng.SuiteRunner.runTest(SuiteRunner.java:455)\r\n\tat org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)\r\n\tat org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)\r\n\tat org.testng.SuiteRunner.run(SuiteRunner.java:364)\r\n\tat org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)\r\n\tat org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)\r\n\tat org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)\r\n\tat org.testng.TestNG.runSuitesLocally(TestNG.java:1137)\r\n\tat org.testng.TestNG.runSuites(TestNG.java:1049)\r\n\tat org.testng.TestNG.run(TestNG.java:1017)\r\n\tat ee.ttu.java.studenttester.core.runners.TestNGRunner.run(TestNGRunner.java:111)\r\n\tat ee.ttu.java.studenttester.core.StudentTester.run(StudentTester.java:28)\r\n\tat ee.ttu.java.studenttester.core.StudentTester.main(StudentTester.java:53)\r\n",
+        "exceptionClass" : "java.lang.AssertionError",
+        "exceptionMessage" : "expected:<5> but was:<6>",
+        "stdout" : [ ],
+        "stderr" : [ ]
+      }, {
+        "status" : "PASSED",
+        "weight" : 1,
+        "description" : "",
+        "printExceptionMessage" : false,
+        "printStackTrace" : false,
+        "timeElapsed" : 19,
+        "groupsDependedUpon" : [ ],
+        "methodsDependedUpon" : [ ],
+        "name" : "testSucceedAnnotation",
+        "stackTrace" : null,
+        "exceptionClass" : null,
+        "exceptionMessage" : null,
+        "stdout" : [ {
+          "thread" : "main",
+          "truncated" : false,
+          "content" : "adding stuff\r\n"
+        } ],
+        "stderr" : [ ]
+      }, {
+        "status" : "FAILED",
+        "weight" : 1,
+        "description" : "",
+        "printExceptionMessage" : false,
+        "printStackTrace" : false,
+        "timeElapsed" : 527,
+        "groupsDependedUpon" : [ ],
+        "methodsDependedUpon" : [ ],
+        "name" : "testCrashHorribly",
+        "stackTrace" : "java.lang.NullPointerException: Oops!\r\n\tat studentcode.StudentTesterExample.crashHorribly(StudentTesterExample.java:21)\r\n\tat testcode.JUnitTest.testCrashHorribly(JUnitTest.java:27)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\r\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\r\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\r\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\r\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\r\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\r\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\r\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\r\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\r\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\r\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:115)\r\n\tat org.testng.junit.JUnit4TestRunner.start(JUnit4TestRunner.java:82)\r\n\tat org.testng.junit.JUnit4TestRunner.run(JUnit4TestRunner.java:70)\r\n\tat org.testng.TestRunner$1.run(TestRunner.java:570)\r\n\tat org.testng.TestRunner.runJUnitWorkers(TestRunner.java:717)\r\n\tat org.testng.TestRunner.privateRunJUnit(TestRunner.java:601)\r\n\tat org.testng.TestRunner.run(TestRunner.java:502)\r\n\tat org.testng.SuiteRunner.runTest(SuiteRunner.java:455)\r\n\tat org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)\r\n\tat org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)\r\n\tat org.testng.SuiteRunner.run(SuiteRunner.java:364)\r\n\tat org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)\r\n\tat org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)\r\n\tat org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)\r\n\tat org.testng.TestNG.runSuitesLocally(TestNG.java:1137)\r\n\tat org.testng.TestNG.runSuites(TestNG.java:1049)\r\n\tat org.testng.TestNG.run(TestNG.java:1017)\r\n\tat ee.ttu.java.studenttester.core.runners.TestNGRunner.run(TestNGRunner.java:111)\r\n\tat ee.ttu.java.studenttester.core.StudentTester.run(StudentTester.java:28)\r\n\tat ee.ttu.java.studenttester.core.StudentTester.main(StudentTester.java:53)\r\n",
+        "exceptionClass" : "java.lang.NullPointerException",
+        "exceptionMessage" : "Oops!",
+        "stdout" : [ ],
+        "stderr" : [ {
+          "thread" : "main",
+          "truncated" : false,
+          "content" : "student output\r\n"
         } ]
-      }
-    },
-    "COMPILER" : {
-      "compilationResult" : "PARTIAL_SUCCESS",
-      "diagnosticList" : [ {
-        "kind" : "ERROR",
-        "lineNo" : 7,
-        "columnNo" : 16,
-        "message" : "invalid method declaration; return type required",
-        "code" : "compiler.err.invalid.meth.decl.ret.type.req",
-        "file" : "studentcode/StudentTesterExample2.java",
-        "hint" : "You must specify what the function returns.\n",
-        "affected" : null,
-        "sensitive" : false
-      } ]
-    },
-    "TESTNG" : {
-      "incompleteGrade" : true,
-      "testContexts" : [ {
-        "passed" : [ {
-          "metadata" : {
-            "printStackTrace" : false,
-            "description" : null,
-            "weight" : 1,
-            "printExceptionMessage" : false
-          },
-          "testNGStatus" : 1,
-          "timeElapsed" : 20,
-          "publicNotes" : null,
-          "privateNotes" : null,
-          "groupsDependedUpon" : [ ],
-          "methodsDependedUpon" : [ ],
-          "name" : "testSucceedNoAnnotation on testSucceedNoAnnotation(testcode.JUnitTest)",
-          "stackTrace" : null,
-          "exceptionClass" : null,
-          "exceptionMessage" : null
-        }, {
-          "metadata" : {
-            "printStackTrace" : false,
-            "description" : null,
-            "weight" : 1,
-            "printExceptionMessage" : false
-          },
-          "testNGStatus" : 1,
-          "timeElapsed" : 18,
-          "publicNotes" : null,
-          "privateNotes" : null,
-          "groupsDependedUpon" : [ ],
-          "methodsDependedUpon" : [ ],
-          "name" : "testSucceedWeightedAnnotation on testSucceedWeightedAnnotation(testcode.JUnitTest)",
-          "stackTrace" : null,
-          "exceptionClass" : null,
-          "exceptionMessage" : null
-        }, {
-          "metadata" : {
-            "printStackTrace" : false,
-            "description" : null,
-            "weight" : 1,
-            "printExceptionMessage" : false
-          },
-          "testNGStatus" : 1,
-          "timeElapsed" : 17,
-          "publicNotes" : null,
-          "privateNotes" : null,
-          "groupsDependedUpon" : [ ],
-          "methodsDependedUpon" : [ ],
-          "name" : "testSucceedAnnotation on testSucceedAnnotation(testcode.JUnitTest)",
-          "stackTrace" : null,
-          "exceptionClass" : null,
-          "exceptionMessage" : null
-        } ],
-        "failed" : [ {
-          "metadata" : {
-            "printStackTrace" : false,
-            "description" : null,
-            "weight" : 1,
-            "printExceptionMessage" : false
-          },
-          "testNGStatus" : 2,
-          "timeElapsed" : 521,
-          "publicNotes" : null,
-          "privateNotes" : null,
-          "groupsDependedUpon" : [ ],
-          "methodsDependedUpon" : [ ],
-          "name" : "testCrashHorriblyWithStacktrace on testCrashHorriblyWithStacktrace(testcode.JUnitTest)",
-          "stackTrace" : "java.lang.NullPointerException: Oops!\r\n\tat studentcode.StudentTesterExample.crashHorribly(StudentTesterExample.java:19)\r\n\tat testcode.JUnitTest.testCrashHorriblyWithStacktrace(JUnitTest.java:47)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\r\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\r\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\r\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\r\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\r\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\r\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\r\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\r\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\r\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\r\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:115)\r\n\tat org.testng.junit.JUnit4TestRunner.start(JUnit4TestRunner.java:82)\r\n\tat org.testng.junit.JUnit4TestRunner.run(JUnit4TestRunner.java:70)\r\n\tat org.testng.TestRunner$1.run(TestRunner.java:570)\r\n\tat org.testng.TestRunner.runJUnitWorkers(TestRunner.java:717)\r\n\tat org.testng.TestRunner.privateRunJUnit(TestRunner.java:601)\r\n\tat org.testng.TestRunner.run(TestRunner.java:502)\r\n\tat org.testng.SuiteRunner.runTest(SuiteRunner.java:455)\r\n\tat org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)\r\n\tat org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)\r\n\tat org.testng.SuiteRunner.run(SuiteRunner.java:364)\r\n\tat org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)\r\n\tat org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)\r\n\tat org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)\r\n\tat org.testng.TestNG.runSuitesLocally(TestNG.java:1137)\r\n\tat org.testng.TestNG.runSuites(TestNG.java:1049)\r\n\tat org.testng.TestNG.run(TestNG.java:1017)\r\n\tat ee.ttu.studenttester.core.runners.TestNGRunner.run(TestNGRunner.java:92)\r\n\tat ee.ttu.studenttester.core.StudentTester.run(StudentTester.java:24)\r\n\tat ee.ttu.studenttester.core.StudentTester.main(StudentTester.java:47)\r\n",
-          "exceptionClass" : "java.lang.NullPointerException",
-          "exceptionMessage" : "Oops!"
-        }, {
-          "metadata" : {
-            "printStackTrace" : false,
-            "description" : null,
-            "weight" : 1,
-            "printExceptionMessage" : false
-          },
-
-          "testNGStatus" : 2,
-          "timeElapsed" : 37,
-          "publicNotes" : null,
-          "privateNotes" : null,
-          "groupsDependedUpon" : [ ],
-          "methodsDependedUpon" : [ ],
-          "name" : "testFailNoAnnotation on testFailNoAnnotation(testcode.JUnitTest)",
-          "stackTrace" : "java.lang.AssertionError: expected:<5> but was:<6>\r\n\tat org.junit.Assert.fail(Assert.java:88)\r\n\tat org.junit.Assert.failNotEquals(Assert.java:834)\r\n\tat org.junit.Assert.assertEquals(Assert.java:645)\r\n\tat org.junit.Assert.assertEquals(Assert.java:631)\r\n\tat testcode.JUnitTest.testFailNoAnnotation(JUnitTest.java:22)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\r\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\r\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\r\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\r\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\r\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\r\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\r\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\r\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\r\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\r\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:115)\r\n\tat org.testng.junit.JUnit4TestRunner.start(JUnit4TestRunner.java:82)\r\n\tat org.testng.junit.JUnit4TestRunner.run(JUnit4TestRunner.java:70)\r\n\tat org.testng.TestRunner$1.run(TestRunner.java:570)\r\n\tat org.testng.TestRunner.runJUnitWorkers(TestRunner.java:717)\r\n\tat org.testng.TestRunner.privateRunJUnit(TestRunner.java:601)\r\n\tat org.testng.TestRunner.run(TestRunner.java:502)\r\n\tat org.testng.SuiteRunner.runTest(SuiteRunner.java:455)\r\n\tat org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)\r\n\tat org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)\r\n\tat org.testng.SuiteRunner.run(SuiteRunner.java:364)\r\n\tat org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)\r\n\tat org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)\r\n\tat org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)\r\n\tat org.testng.TestNG.runSuitesLocally(TestNG.java:1137)\r\n\tat org.testng.TestNG.runSuites(TestNG.java:1049)\r\n\tat org.testng.TestNG.run(TestNG.java:1017)\r\n\tat ee.ttu.studenttester.core.runners.TestNGRunner.run(TestNGRunner.java:92)\r\n\tat ee.ttu.studenttester.core.StudentTester.run(StudentTester.java:24)\r\n\tat ee.ttu.studenttester.core.StudentTester.main(StudentTester.java:47)\r\n",
-          "exceptionClass" : "java.lang.AssertionError",
-          "exceptionMessage" : "expected:<5> but was:<6>"
-        }, {
-          "metadata" : {
-            "printStackTrace" : false,
-            "description" : null,
-            "weight" : 1,
-            "printExceptionMessage" : false
-          },
-
-          "testNGStatus" : 2,
-          "timeElapsed" : 521,
-          "publicNotes" : null,
-          "privateNotes" : null,
-          "groupsDependedUpon" : [ ],
-          "methodsDependedUpon" : [ ],
-          "name" : "testCrashHorribly on testCrashHorribly(testcode.JUnitTest)",
-          "stackTrace" : "java.lang.NullPointerException: Oops!\r\n\tat studentcode.StudentTesterExample.crashHorribly(StudentTesterExample.java:19)\r\n\tat testcode.JUnitTest.testCrashHorribly(JUnitTest.java:27)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\r\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\r\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\r\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\r\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\r\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\r\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\r\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\r\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\r\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\r\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:115)\r\n\tat org.testng.junit.JUnit4TestRunner.start(JUnit4TestRunner.java:82)\r\n\tat org.testng.junit.JUnit4TestRunner.run(JUnit4TestRunner.java:70)\r\n\tat org.testng.TestRunner$1.run(TestRunner.java:570)\r\n\tat org.testng.TestRunner.runJUnitWorkers(TestRunner.java:717)\r\n\tat org.testng.TestRunner.privateRunJUnit(TestRunner.java:601)\r\n\tat org.testng.TestRunner.run(TestRunner.java:502)\r\n\tat org.testng.SuiteRunner.runTest(SuiteRunner.java:455)\r\n\tat org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)\r\n\tat org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)\r\n\tat org.testng.SuiteRunner.run(SuiteRunner.java:364)\r\n\tat org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)\r\n\tat org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)\r\n\tat org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)\r\n\tat org.testng.TestNG.runSuitesLocally(TestNG.java:1137)\r\n\tat org.testng.TestNG.runSuites(TestNG.java:1049)\r\n\tat org.testng.TestNG.run(TestNG.java:1017)\r\n\tat ee.ttu.studenttester.core.runners.TestNGRunner.run(TestNGRunner.java:92)\r\n\tat ee.ttu.studenttester.core.StudentTester.run(StudentTester.java:24)\r\n\tat ee.ttu.studenttester.core.StudentTester.main(StudentTester.java:47)\r\n",
-          "exceptionClass" : "java.lang.NullPointerException",
-          "exceptionMessage" : "Oops!"
-        }, {
-          "metadata" : {
-            "printStackTrace" : false,
-            "description" : null,
-            "weight" : 1,
-            "printExceptionMessage" : false
-          },
-          "testNGStatus" : 2,
-          "timeElapsed" : 522,
-          "publicNotes" : null,
-          "privateNotes" : null,
-          "groupsDependedUpon" : [ ],
-          "methodsDependedUpon" : [ ],
-          "name" : "testHangHorribly on testHangHorribly(testcode.JUnitTest)",
-          "stackTrace" : "org.junit.runners.model.TestTimedOutException: test timed out after 500 milliseconds\r\n\tat studentcode.StudentTesterExample.hangHorribly(StudentTesterExample.java:23)\r\n\tat testcode.JUnitTest.testHangHorribly(JUnitTest.java:32)\r\n\tat java.base@11.0.1/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base@11.0.1/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base@11.0.1/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base@11.0.1/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat app//org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\r\n\tat app//org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\r\n\tat app//org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\r\n\tat app//org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\r\n\tat app//org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:298)\r\n\tat app//org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:292)\r\n\tat java.base@11.0.1/java.util.concurrent.FutureTask.run(FutureTask.java:264)\r\n\tat java.base@11.0.1/java.lang.Thread.run(Thread.java:834)\r\n",
-          "exceptionClass" : "org.junit.runners.model.TestTimedOutException",
-          "exceptionMessage" : "test timed out after 500 milliseconds"
-        } ],
-        "skipped" : [ ],
-        "name" : "testcode.JUnitTest (JUnit)",
-        "file" : "testcode.JUnitTest",
-        "startDate" : 1544567248830,
-        "endDate" : 1544567249422,
-        "configuration" : {
-          "mode" : "VERBOSE",
-          "identifier" : 0,
-          "welcomeMessage" : null
-        },
-        "count" : 7,
-        "grade" : 0.42857142857142855,
-        "passedCount" : 3,
-        "weight" : 7
+      }, {
+        "status" : "FAILED",
+        "weight" : 1,
+        "description" : "",
+        "printExceptionMessage" : false,
+        "printStackTrace" : false,
+        "timeElapsed" : 526,
+        "groupsDependedUpon" : [ ],
+        "methodsDependedUpon" : [ ],
+        "name" : "testCrashHorriblyWithStacktrace",
+        "stackTrace" : "java.lang.NullPointerException: Oops!\r\n\tat studentcode.StudentTesterExample.crashHorribly(StudentTesterExample.java:21)\r\n\tat testcode.JUnitTest.testCrashHorriblyWithStacktrace(JUnitTest.java:47)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\r\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\r\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\r\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\r\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\r\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\r\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\r\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\r\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\r\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\r\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\r\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\r\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:115)\r\n\tat org.testng.junit.JUnit4TestRunner.start(JUnit4TestRunner.java:82)\r\n\tat org.testng.junit.JUnit4TestRunner.run(JUnit4TestRunner.java:70)\r\n\tat org.testng.TestRunner$1.run(TestRunner.java:570)\r\n\tat org.testng.TestRunner.runJUnitWorkers(TestRunner.java:717)\r\n\tat org.testng.TestRunner.privateRunJUnit(TestRunner.java:601)\r\n\tat org.testng.TestRunner.run(TestRunner.java:502)\r\n\tat org.testng.SuiteRunner.runTest(SuiteRunner.java:455)\r\n\tat org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)\r\n\tat org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)\r\n\tat org.testng.SuiteRunner.run(SuiteRunner.java:364)\r\n\tat org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)\r\n\tat org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)\r\n\tat org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)\r\n\tat org.testng.TestNG.runSuitesLocally(TestNG.java:1137)\r\n\tat org.testng.TestNG.runSuites(TestNG.java:1049)\r\n\tat org.testng.TestNG.run(TestNG.java:1017)\r\n\tat ee.ttu.java.studenttester.core.runners.TestNGRunner.run(TestNGRunner.java:111)\r\n\tat ee.ttu.java.studenttester.core.StudentTester.run(StudentTester.java:28)\r\n\tat ee.ttu.java.studenttester.core.StudentTester.main(StudentTester.java:53)\r\n",
+        "exceptionClass" : "java.lang.NullPointerException",
+        "exceptionMessage" : "Oops!",
+        "stdout" : [ ],
+        "stderr" : [ {
+          "thread" : "main",
+          "truncated" : false,
+          "content" : "student output\r\n"
+        } ]
       } ],
-      "totalPassedCount" : 3,
-      "totalCount" : 7,
-      "totalGrade" : 0.42857142857142855
-    }
-  }
+      "name" : "testcode.JUnitTest (JUnit)",
+      "file" : "testcode.JUnitTest",
+      "startDate" : 1546975076801,
+      "endDate" : 1546975077388,
+      "mode" : "NORMAL",
+      "welcomeMessage" : null,
+      "identifier" : 0,
+      "weight" : 7,
+      "grade" : 0.42857142857142855,
+      "passedCount" : 3,
+      "count" : 7
+    } ],
+    "identifier" : "TESTNG",
+    "code" : 0,
+    "totalPassedCount" : 3,
+    "totalCount" : 7,
+    "totalGrade" : 0.42857142857142855
+  } ]
 }

@@ -1,4 +1,4 @@
-package ee.ttu.java.studenttester.core.listeners;
+package ee.ttu.java.studenttester.core.interceptors;
 
 import ee.ttu.java.studenttester.core.helpers.StderrStreamMap;
 import ee.ttu.java.studenttester.core.helpers.StdoutStreamMap;

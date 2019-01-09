@@ -1,4 +1,4 @@
-package ee.ttu.java.studenttester.core.model.tests;
+package ee.ttu.java.studenttester.core.models.tests;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

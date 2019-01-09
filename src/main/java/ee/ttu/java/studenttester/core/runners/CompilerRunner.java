@@ -5,11 +5,11 @@ import com.beust.jcommander.Parameter;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
 import ee.ttu.java.studenttester.core.annotations.Runnable;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
-import ee.ttu.java.studenttester.core.enums.CompilationResult;
+import ee.ttu.java.studenttester.core.enums.RunnerResultType;
 import ee.ttu.java.studenttester.core.helpers.ClassUtils;
-import ee.ttu.java.studenttester.core.model.SerializableDiagnosticObject;
-import ee.ttu.java.studenttester.core.model.reports.CompilerReport;
-import ee.ttu.java.studenttester.core.model.TesterContext;
+import ee.ttu.java.studenttester.core.models.SerializableDiagnosticObject;
+import ee.ttu.java.studenttester.core.models.reports.CompilerReport;
+import ee.ttu.java.studenttester.core.models.TesterContext;
 import org.apache.commons.io.FileUtils;
 
 import javax.tools.*;
@@ -73,28 +73,34 @@ public class CompilerRunner extends BaseRunner {
             compilerWriter = new StringWriter();
             diagnosticCollector = new DiagnosticCollector<>();
 
-            boolean atLeastOneSucess = false;
+            int successCount = 0;
             if (separateFileCompilation) {
                 for (var testFile : testFiles) {
-                    var relative = ClassUtils.relativizeFile(testFile, context.testRoot);
+                    var relative = ClassUtils.relativizeFilePath(testFile, context.testRoot);
                     var real = new File(context.tempRoot, relative);
                     if (compile(Collections.singletonList(real))) {
-                        atLeastOneSucess = true;
+                        successCount++;
                     }
                 }
             } else {
-                atLeastOneSucess = compile(testFiles);
+                successCount = compile(testFiles) ? 1 : 0;
             }
 
             fileManager.close();
 
-            if (atLeastOneSucess && diagnosticCollector.getDiagnostics().size() > 0) {
-                compilerReport.compilationResult = CompilationResult.PARTIAL_SUCCESS;
+            if (successCount < testFiles.size() && separateFileCompilation) {
+                // separate succeeded less than total
+                compilerReport.result = RunnerResultType.PARTIAL_SUCCESS;
                 LOG.warning("There was at least one compilation failure");
-            } else if (atLeastOneSucess) {
-                compilerReport.compilationResult = CompilationResult.SUCCESS;
+            } else if (successCount != 0 && successCount == testFiles.size()
+                    || successCount == 1 && !separateFileCompilation) {
+                // succeeded equals total OR 1 success and no separation
+                compilerReport.result = RunnerResultType.SUCCESS;
+            } else if (testFiles.size() == 0) {
+                compilerReport.result = RunnerResultType.NOT_RUN;
+                LOG.warning("Nothing to compile");
             } else {
-                compilerReport.compilationResult = CompilationResult.FAILURE;
+                compilerReport.result = RunnerResultType.FAILURE;
                 LOG.severe("Compilation has failed");
             }
 
@@ -103,6 +109,7 @@ public class CompilerRunner extends BaseRunner {
                     .collect(Collectors.toList());
         } catch (Exception e) {
             LOG.severe("An unexpected compilation error has occurred");
+            compilerReport.result = RunnerResultType.FAILURE;
             e.printStackTrace();
         }
     }
@@ -117,7 +124,7 @@ public class CompilerRunner extends BaseRunner {
 
     @Override
     public void commit() {
-        context.results.put(Identifier.COMPILER, compilerReport);
+        context.results.putResult(compilerReport);
     }
 
     public boolean isCopyResources() {

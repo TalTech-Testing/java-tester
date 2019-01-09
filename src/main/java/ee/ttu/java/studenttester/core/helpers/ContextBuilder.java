@@ -2,10 +2,12 @@ package ee.ttu.java.studenttester.core.helpers;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import ee.ttu.java.studenttester.core.annotations.Identifier;
 import ee.ttu.java.studenttester.core.annotations.Runnable;
 import ee.ttu.java.studenttester.core.runners.BaseRunner;
-import ee.ttu.java.studenttester.core.model.TesterContext;
+import ee.ttu.java.studenttester.core.models.TesterContext;
 
+import java.net.http.WebSocket;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -20,7 +22,7 @@ public class ContextBuilder {
             description = "Comma-separated list of actions to run (see below)",
             order = 5
     )
-    private List<String> cmdLineIdentifiers;
+    private List<String> cmdLineIdentifierStrs;
 
     public static ContextBuilder builder(String[] args)  {
         ContextBuilder inst = new ContextBuilder();
@@ -41,13 +43,18 @@ public class ContextBuilder {
 
     private void resolveRunnables(TesterContext context) {
         Set<Class<?>> runnableClasses = BaseRunner.getRunnableClasses();
-        List<String> allIdentifiers = runnableClasses.stream()
-                .map(cls -> cls.getAnnotation(Runnable.class).identifier().getValue())
+        List<Identifier> allIdentifiers = runnableClasses.stream()
+                .map(cls -> cls.getAnnotation(Runnable.class).identifier())
                 .collect(Collectors.toList());
 
-        if (!allIdentifiers.containsAll(cmdLineIdentifiers)) {
-            cmdLineIdentifiers.removeAll(allIdentifiers);
-            throw new IllegalArgumentException(String.format("Unknown runners: %s, known: %s", cmdLineIdentifiers, allIdentifiers));
+        List<Identifier> cmdLineIdentifiers;
+        try {
+            cmdLineIdentifiers = cmdLineIdentifierStrs.stream()
+                    .map(String::toUpperCase)
+                    .map(Identifier::valueOf)
+                    .collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(String.format("Unknown runners found, known: %s", allIdentifiers), e);
         }
 
         var runnerPopulator = JCommander.newBuilder()
@@ -55,7 +62,7 @@ public class ContextBuilder {
                 .addObject(context);
 
         context.runners = runnableClasses.stream()
-                .filter(cls -> cmdLineIdentifiers.contains(cls.getAnnotation(Runnable.class).identifier().getValue()))
+                .filter(cls -> cmdLineIdentifiers.contains(cls.getAnnotation(Runnable.class).identifier()))
                 .map(cls -> BaseRunner.initRunnerWithContext(cls, context))
                 .peek(runnerPopulator::addObject)
                 .sorted(Comparator.comparingInt(o -> o.getClass().getAnnotation(Runnable.class).order()))
@@ -76,7 +83,7 @@ public class ContextBuilder {
         var dummyContextBuilder = ContextBuilder.builder(new String[] {"-r", "dummy"});
         var dummyContext = new TesterContext();
         dummyContext.close();
-        dummyContextBuilder.cmdLineIdentifiers = null; // suppress default values
+        dummyContextBuilder.cmdLineIdentifierStrs = null; // suppress default values
         dummyContext.tempRoot = null;
 
         var usageBuilder = JCommander.newBuilder()
@@ -89,7 +96,8 @@ public class ContextBuilder {
                 .map(cls -> BaseRunner.initRunnerWithContext(cls, dummyContext))
                 .forEach(usageBuilder::addObject);
         var runnableList = runnableClasses.stream()
-                .map(cls -> cls.getAnnotation(Runnable.class).identifier().getValue())
+                .map(cls -> cls.getAnnotation(Runnable.class).identifier())
+                .map(String::valueOf)
                 .collect(Collectors.joining(","));
 
         usageBuilder.build().usage();

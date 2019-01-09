@@ -7,11 +7,11 @@ import ee.ttu.java.studenttester.core.annotations.Runnable;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
 import ee.ttu.java.studenttester.core.helpers.ClassUtils;
 import ee.ttu.java.studenttester.core.helpers.StreamRedirector;
-import ee.ttu.java.studenttester.core.model.tests.Output;
-import ee.ttu.java.studenttester.core.model.tests.UnitTestContext;
-import ee.ttu.java.studenttester.core.model.reports.CompilerReport;
-import ee.ttu.java.studenttester.core.model.TesterContext;
-import ee.ttu.java.studenttester.core.model.reports.TestNGReport;
+import ee.ttu.java.studenttester.core.models.tests.Output;
+import ee.ttu.java.studenttester.core.models.tests.UnitTestContext;
+import ee.ttu.java.studenttester.core.models.reports.CompilerReport;
+import ee.ttu.java.studenttester.core.models.TesterContext;
+import ee.ttu.java.studenttester.core.models.reports.TestNGReport;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestNGListener;
 import org.testng.TestNG;
@@ -20,15 +20,13 @@ import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 
 import java.io.ByteArrayOutputStream;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static ee.ttu.java.studenttester.core.enums.CompilationResult.*;
+import static ee.ttu.java.studenttester.core.enums.RunnerResultType.*;
 import static ee.ttu.java.studenttester.core.helpers.AnnotationUtils.getClassMetadata;
 import static ee.ttu.java.studenttester.core.helpers.AnnotationUtils.getMockTestContextConfiguration;
-import static ee.ttu.java.studenttester.core.model.tests.Output.MAX_STREAM_READ_SIZE;
+import static ee.ttu.java.studenttester.core.models.tests.Output.MAX_STREAM_READ_SIZE;
 
 @Runnable(identifier = Identifier.TESTNG, order = 10)
 public class TestNGRunner extends BaseRunner {
@@ -53,14 +51,14 @@ public class TestNGRunner extends BaseRunner {
 
     @Override
     public void run() throws Exception {
-        if (isFailed()) {
+        if (!canContinue()) {
             LOG.severe("Unit testing can not be run as the compilation failed.");
+            report.result = NOT_RUN;
             return;
         }
 
         TestNG testng = new TestNG();
-        URLClassLoader loader = URLClassLoader.newInstance(new URL[] {context.tempRoot.toURI().toURL()});
-        testng.addClassLoader(loader);
+        testng.addClassLoader(getClassLoader());
 
         var suite = new XmlSuite();
         var suites = List.of(suite);
@@ -76,7 +74,7 @@ public class TestNGRunner extends BaseRunner {
             String testFileAsClassPath = ClassUtils.filePathToClassPath(testFile, context.testRoot);
 
             try {
-                Class testClass = loader.loadClass(testFileAsClassPath);
+                Class testClass = getClassLoader().loadClass(testFileAsClassPath);
 
                 XmlTest test;
                 List<XmlClass> classes;
@@ -112,22 +110,23 @@ public class TestNGRunner extends BaseRunner {
         StreamRedirector.enableNullStdin();
         StreamRedirector.beginRedirect();
         testng.run();
-        report.status = testng.getStatus();
-        report.incompleteGrade = ((CompilerReport) context.results.get(Identifier.COMPILER)).compilationResult != SUCCESS;
+        report.testNGStatus = testng.getStatus();
+        if (context.results.getResultByType(CompilerReport.class).result != SUCCESS) {
+            report.result = PARTIAL_SUCCESS;
+        } else {
+            report.result = SUCCESS;
+        }
         parseResults();
     }
 
     @Override
     public void commit() {
-        if (isFailed()) {
-            return;
-        }
-        context.results.put(Identifier.TESTNG, report);
+        context.results.putResult(report);
     }
 
-    private boolean isFailed() {
-        var compilationResult = ((CompilerReport) context.results.get(Identifier.COMPILER)).compilationResult;
-        return compilationResult == FAILURE || compilationResult == NOT_RUN;
+    private boolean canContinue() {
+        var compilationResult = context.results.getResultByType(CompilerReport.class).result;
+        return compilationResult == SUCCESS || compilationResult == PARTIAL_SUCCESS;
     }
 
     private void parseResults() {
@@ -152,7 +151,11 @@ public class TestNGRunner extends BaseRunner {
             }
 
             context.originalContext = tc;
-            context.configuration = conf;
+
+            context.identifier = conf.identifier();
+            context.mode = conf.mode();
+            context.welcomeMessage = conf.welcomeMessage();
+
             context.buildFromOriginal();
 
             report.testContexts.add(context);
@@ -160,7 +163,7 @@ public class TestNGRunner extends BaseRunner {
         }
 
         report.testContexts.stream()
-                .map(UnitTestContext::getAllResults)
+                .map(c -> c.unitTests)
                 .flatMap(List::stream)
                 .forEach(singleResult -> {
                     var streams = testStreams.get(singleResult.originalResult);
@@ -182,7 +185,7 @@ public class TestNGRunner extends BaseRunner {
                     }
                 });
 
-        report.testContexts.sort(Comparator.comparing(c -> c.configuration.identifier()));
+        report.testContexts.sort(Comparator.comparing(c -> c.identifier));
     }
 
     private static Output getOutput(String threadName, ByteArrayOutputStream baos) {

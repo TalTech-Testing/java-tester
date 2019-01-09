@@ -1,15 +1,12 @@
-package ee.ttu.java.studenttester.core.model;
+package ee.ttu.java.studenttester.core.models;
 
 import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.io.Files;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
-import ee.ttu.java.studenttester.core.interfaces.ReportElement;
 import ee.ttu.java.studenttester.core.runners.BaseRunner;
 import ee.ttu.java.studenttester.core.validators.DirectoryParameterValidator;
-import ee.ttu.java.studenttester.core.validators.FileParameterValidator;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -69,8 +66,7 @@ public class TesterContext implements AutoCloseable {
     @JsonIgnore
     public Map<Enum<? extends Identifier>, BaseRunner> runners = new TreeMap<>();
 
-    @JsonSerialize
-    public Map<Enum<? extends Identifier>, ReportElement> results = new TreeMap<>();
+    public ResultContext results = new ResultContext();
 
     @Override
     public void close() {

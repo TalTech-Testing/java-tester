@@ -1,4 +1,4 @@
-package ee.ttu.java.studenttester.core.model;
+package ee.ttu.java.studenttester.core.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ee.ttu.java.studenttester.core.helpers.ClassUtils;
@@ -7,6 +7,7 @@ import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.util.Arrays;
 import java.util.Locale;
 
 public class SerializableDiagnosticObject {
@@ -40,19 +41,24 @@ public class SerializableDiagnosticObject {
         this(diagnosticObject);
         try {
             int byteCount = (int) (innerDiagnosticObject.getEndPosition() - innerDiagnosticObject.getStartPosition());
-            if (byteCount > 0) {
+            if (byteCount >= 0) {
                 var file = new RandomAccessFile(this.file, "r");
-                var bytes = new byte[byteCount];
-                file.seek(innerDiagnosticObject.getStartPosition());
-                file.read(bytes);
+                var start = innerDiagnosticObject.getStartPosition();
+                while (file.read() != '\n' && start > 0) {
+                    file.seek(--start);
+                }
+                this.affected = file.readLine();
                 file.close();
-                this.affected = new String(bytes);
             }
         } catch (Exception e) {
             this.affected = String.format("<Error when reading file: %s>", e.getMessage());
         }
-        this.file = ClassUtils.relativizeFile(new File(this.file), context.tempRoot);
+        this.file = ClassUtils.relativizeFilePath(new File(this.file), context.tempRoot);
         this.sensitive = new File(context.testRoot, this.file).exists();
+    }
+
+    public SerializableDiagnosticObject() {
+
     }
 
     @Override

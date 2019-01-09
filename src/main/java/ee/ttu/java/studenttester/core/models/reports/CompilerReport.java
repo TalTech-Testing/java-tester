@@ -1,14 +1,21 @@
-package ee.ttu.java.studenttester.core.model.reports;
+package ee.ttu.java.studenttester.core.models.reports;
 
-import ee.ttu.java.studenttester.core.interfaces.ReportElement;
-import ee.ttu.java.studenttester.core.model.SerializableDiagnosticObject;
-import ee.ttu.java.studenttester.core.enums.CompilationResult;
+import ee.ttu.java.studenttester.core.annotations.Identifier;
+import ee.ttu.java.studenttester.core.models.SerializableDiagnosticObject;
 
 import java.util.List;
 
-public class CompilerReport implements ReportElement {
+public class CompilerReport extends AbstractReport {
 
-    public CompilationResult compilationResult = CompilationResult.NOT_RUN;
+    @Override
+    public Identifier getIdentifier() {
+        return Identifier.COMPILER;
+    }
+
+    @Override
+    public int getCode() {
+        return 5;
+    }
 
     public List<SerializableDiagnosticObject> diagnosticList;
 
@@ -17,9 +24,9 @@ public class CompilerReport implements ReportElement {
         var builder = new StringBuilder()
             .append("* Compiler report *\n");
 
-        switch (compilationResult) {
+        switch (result) {
             case NOT_RUN:
-                builder.append("The compiler did not run.");
+                builder.append("The compiler did not run. Were there any files to compile?");
                 break;
             case FAILURE:
                 builder.append("Compilation failed.");
