@@ -2,6 +2,7 @@ package ee.ttu.java.studenttester.core;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import ee.ttu.java.studenttester.hodor.Shim;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
 import ee.ttu.java.studenttester.core.helpers.ContextBuilder;
 import ee.ttu.java.studenttester.core.models.TesterContext;
@@ -37,7 +38,10 @@ public class StudentTester {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
+        // check if arguments passed via stdin in special format
+        Shim.checkRunViaShim();
+
         long start = System.currentTimeMillis();
         StudentTester tester = new StudentTester();
         JCommander.newBuilder()
@@ -48,7 +52,7 @@ public class StudentTester {
         if (args.length == 0 || tester.printUsage) {
             ContextBuilder.generateUsageAndExit();
         }
-        LOG.info("Running StudentTester");
+        LOG.info("Running StudentTester, build " + StudentTester.class.getPackage().getImplementationVersion());
         tester.context = ContextBuilder.builder(args).buildContext();
         tester.run();
         LOG.info(String.format("Finished running, elapsed time %dms", System.currentTimeMillis() - start));
