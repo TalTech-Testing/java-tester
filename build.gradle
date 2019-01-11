@@ -48,7 +48,12 @@ jar {
 }
 
 docker {
-    name "studenttester/" + version
+    if (project.hasProperty("areteEnv")) {
+        dockerfile file('Dockerfile_arete')
+        name "studenttester-" + areteEnv + "/" + version
+    } else {
+        name "studenttester/" + version
+    }
     files jar.outputs
     copySpec.into("build/libs")
 }
