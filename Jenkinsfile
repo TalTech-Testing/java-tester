@@ -15,7 +15,7 @@ node('build_tester') {
         sh('eval `ssh-agent -s`;'
          + 'ssh-agent bash -c \'ssh-add "' + env.SSHKEYFILE + '";'
          + 'scp studenttester.tar jenkins@193.40.252.119: '
-         + '&& ssh jenkins@193.40.252.119 "docker load -i studenttester.tar"')
+         + '&& ssh jenkins@193.40.252.119 "docker load -i studenttester.tar"\'')
       }
     }
   } catch(err) {
