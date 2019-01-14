@@ -5,7 +5,7 @@ node('build_tester') {
     }
 
     stage("Build docker container") {
-      sh(returnStdout: false, script: 'gradle clean docker -PareteEnv=' + env.BRANCH_NAME -Dorg.gradle.java.home=/usr/lib/jvm/jdk-11.0.1/)
+      sh(returnStdout: false, script: 'gradle clean docker -PareteEnv=' + env.BRANCH_NAME + '-Dorg.gradle.java.home=/usr/lib/jvm/jdk-11.0.1/')
     }
 
     stage("Deployment") {
