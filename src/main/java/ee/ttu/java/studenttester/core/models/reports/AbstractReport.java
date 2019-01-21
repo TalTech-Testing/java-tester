@@ -6,7 +6,7 @@ import ee.ttu.java.studenttester.core.enums.RunnerResultType;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "identifier")
+@JsonTypeInfo(include = JsonTypeInfo.As.EXISTING_PROPERTY, use = JsonTypeInfo.Id.NAME, property = "identifier")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = CheckStyleReport.class, name = "CHECKSTYLE"),
         @JsonSubTypes.Type(value = CompilerReport.class, name = "COMPILER"),
@@ -20,7 +20,6 @@ public abstract class AbstractReport {
      * @return enum associated with this report type
      */
     @JsonProperty(access = READ_ONLY)
-    @JsonIgnore
     public abstract Identifier getIdentifier();
 
     /**

@@ -18,7 +18,7 @@ public class Shim {
 
     private static final Logger LOG = Logger.getLogger(StudentTester.class.getName());
 
-    public static void checkRunViaShim() {
+    public static String[] getArgsFromStdin() {
         TesterInput input = null;
         try {
             var reader = new BufferedReader(new InputStreamReader(System.in));
@@ -39,11 +39,11 @@ public class Shim {
         }
         if (input != null) {
             var args = splitExtra(input.extra);
-            args.addAll(List.of("-t", input.testRoot, "-c", input.contentRoot, "-r", "COMPILER,TESTNG,REPORT"));
+            args.addAll(List.of("-t", input.testRoot, "-c", input.contentRoot, "-r", "COMPILER,TESTNG,REPORT", "-jsontxt"));
             System.err.println("Complete command line: " + args);
-            StudentTester.main(args.toArray(String[]::new));
-            System.exit(0);
+            return args.toArray(String[]::new);
         }
+        return null;
     }
 
     private static List<String> splitExtra(String extra) {

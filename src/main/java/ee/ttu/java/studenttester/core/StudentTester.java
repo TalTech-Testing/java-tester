@@ -40,7 +40,10 @@ public class StudentTester {
 
     public static void main(String... args) {
         // check if arguments passed via stdin in special format
-        Shim.checkRunViaShim();
+        var stdinArgs = Shim.getArgsFromStdin();
+        if (stdinArgs != null) {
+            args = stdinArgs;
+        }
 
         long start = System.currentTimeMillis();
         StudentTester tester = new StudentTester();

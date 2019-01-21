@@ -2,7 +2,9 @@ package ee.ttu.java.studenttester.core.models;
 
 import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.io.Files;
+import ee.ttu.java.studenttester.core.StudentTester;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
 import ee.ttu.java.studenttester.core.runners.BaseRunner;
@@ -14,11 +16,16 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
+
 /**
  * Object that accumulates all information from runners.
  * A new temporary directory is created for every new instance, so close() should be called to clean it up.
  */
 public class TesterContext implements AutoCloseable {
+
+    public String version = StudentTester.class.getPackage().getImplementationVersion();
+    public String type = "hodor_studenttester";
 
     @Parameter(
             names = {"--code", "-c"},
