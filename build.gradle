@@ -50,7 +50,7 @@ jar {
 docker {
     if (project.hasProperty("areteEnv")) {
         dockerfile file('Dockerfile_arete')
-        name "studenttester-" + areteEnv + "/" + version
+        name "hodor_java11_" + areteEnv
     } else {
         name "studenttester/" + version
     }

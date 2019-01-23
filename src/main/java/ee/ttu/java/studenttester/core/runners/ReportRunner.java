@@ -54,7 +54,7 @@ public class ReportRunner extends BaseRunner {
                     writer.write(plainTextReport.output);
                     writer.close();
                 } else {
-                    System.out.print(plainTextReport.output);
+                    System.out.println(plainTextReport.output);
                 }
             } else {
                 if (plainTextOutputInJson) {
@@ -63,7 +63,7 @@ public class ReportRunner extends BaseRunner {
                 if (context.outputFile != null) {
                     mapper.writeValue(context.outputFile, context);
                 } else {
-                    System.out.print(mapper
+                    System.out.println(mapper
                             .writerWithDefaultPrettyPrinter()
                             .writeValueAsString(context));
                 }
@@ -78,7 +78,7 @@ public class ReportRunner extends BaseRunner {
 
     @Override
     public void commit() {
-        // all is done
+        System.out.flush(); // in case any output is pending
     }
 
 }
