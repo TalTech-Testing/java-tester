@@ -24,7 +24,7 @@ public class StudentTester {
     private boolean printUsage = false;
 
     @Parameter(
-            names = {"--inputArgs", "-in"},
+            names = {"--inputArgs", "-i"},
             description = "Input file to be used in place of other arguments.",
             order = 10,
             validateValueWith = FileParameterValidator.class
