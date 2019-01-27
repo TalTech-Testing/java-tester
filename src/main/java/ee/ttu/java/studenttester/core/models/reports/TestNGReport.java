@@ -3,7 +3,7 @@ package ee.ttu.java.studenttester.core.models.reports;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
-import ee.ttu.java.studenttester.core.enums.ReportMode;
+import ee.ttu.java.studenttester.enums.ReportMode;
 import ee.ttu.java.studenttester.core.enums.RunnerResultType;
 import ee.ttu.java.studenttester.core.enums.TestResultType;
 import ee.ttu.java.studenttester.core.interceptors.TestNGInterceptor;

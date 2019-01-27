@@ -1,7 +1,7 @@
-package ee.ttu.java.studenttester.core.annotations;
+package ee.ttu.java.studenttester.annotations;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ee.ttu.java.studenttester.core.enums.ReportMode;
+import ee.ttu.java.studenttester.enums.ReportMode;
 
 import java.lang.annotation.*;
 

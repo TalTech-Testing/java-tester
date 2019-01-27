@@ -1,4 +1,4 @@
-package ee.ttu.java.studenttester.core.annotations;
+package ee.ttu.java.studenttester.annotations;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

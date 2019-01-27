@@ -1,8 +1,8 @@
 package ee.ttu.java.studenttester.core.helpers;
 
-import ee.ttu.java.studenttester.core.annotations.Gradeable;
-import ee.ttu.java.studenttester.core.annotations.TestContextConfiguration;
-import ee.ttu.java.studenttester.core.enums.ReportMode;
+import ee.ttu.java.studenttester.annotations.Gradeable;
+import ee.ttu.java.studenttester.annotations.TestContextConfiguration;
+import ee.ttu.java.studenttester.enums.ReportMode;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.xml.XmlClass;

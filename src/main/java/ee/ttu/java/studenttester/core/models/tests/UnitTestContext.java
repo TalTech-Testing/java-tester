@@ -2,9 +2,9 @@ package ee.ttu.java.studenttester.core.models.tests;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ee.ttu.java.studenttester.core.annotations.Gradeable;
+import ee.ttu.java.studenttester.annotations.Gradeable;
 import ee.ttu.java.studenttester.core.helpers.AnnotationUtils;
-import ee.ttu.java.studenttester.core.enums.ReportMode;
+import ee.ttu.java.studenttester.enums.ReportMode;
 import ee.ttu.java.studenttester.core.enums.TestResultType;
 import org.testng.ITestContext;
 import org.testng.ITestResult;

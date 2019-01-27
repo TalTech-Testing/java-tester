@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static ee.ttu.java.studenttester.core.enums.ReportMode.*;
+import static ee.ttu.java.studenttester.enums.ReportMode.*;
 
 @SuppressWarnings("WeakerAccess")
 public class SingleResult {
