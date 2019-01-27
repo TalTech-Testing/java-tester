@@ -1,49 +1,45 @@
-package ee.ttu.java.studenttester.hodor;
+package ee.ttu.java.studenttester.core.helpers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ee.ttu.java.studenttester.core.StudentTester;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
+import ee.ttu.java.studenttester.core.models.TesterInput;
 
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-public class Shim {
+public class FileArgsReader {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    private static final Logger LOG = Logger.getLogger(StudentTester.class.getName());
+    private static final Logger LOG = Logger.getLogger(FileArgsReader.class.getName());
 
-    public static String[] getArgsFromStdin() {
+    public static String[] getArgsFromFile(File file) {
         TesterInput input = null;
         try {
-            var reader = new BufferedReader(new InputStreamReader(System.in));
-            if (reader.ready()) {
-                input = mapper.readValue(reader, TesterInput.class);
-                System.err.println(String.format("Read input via stdin, overriding default:\n"
-                        + "\ttestRoot:\t%s\n"
-                        + "\tcontentRoot:\t%s\n"
-                        + "\textra:\t\t%s\n",
-                        input.testRoot, input.contentRoot, input.extra));
-                if (input.contentRoot == null || input.testRoot == null) {
-                    throw new StudentTesterException("Missing path detected, cannot continue!");
-                }
+            input = mapper.readValue(file, TesterInput.class);
+            LOG.info(String.format("Read input via file:\n"
+                            + "\ttestRoot:\t\t%s\n"
+                            + "\tcontentRoot:\t%s\n"
+                            + "\textra:\t\t\t%s\n",
+                    input.testRoot, input.contentRoot, input.extra));
+            if (input.contentRoot == null || input.testRoot == null) {
+                throw new StudentTesterException("Missing path detected, cannot continue!");
             }
         } catch (IOException e) {
-            LOG.severe("Failed to read input from stdin:");
+            LOG.severe("Failed to read input from file:");
             e.printStackTrace();
         }
         if (input != null) {
             var args = splitExtra(input.extra);
-            args.addAll(List.of("-t", input.testRoot, "-c", input.contentRoot, "-r", "COMPILER,TESTNG,REPORT", "-jsontxt"));
-            System.err.println("Complete command line: " + args);
+            args.addAll(List.of("-c", input.contentRoot, "-t", input.testRoot));
+            LOG.info("Args from file: " + args);
             return args.toArray(String[]::new);
         }
-        return null;
+        return new String[0];
     }
 
     private static List<String> splitExtra(String extra) {
@@ -65,4 +61,5 @@ public class Shim {
         }
         return splitArgs;
     }
+
 }

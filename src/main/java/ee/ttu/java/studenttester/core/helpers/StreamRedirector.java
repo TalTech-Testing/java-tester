@@ -22,6 +22,9 @@ public class StreamRedirector {
         System.setIn(InputStream.nullInputStream());
     }
 
+    /**
+     * Reset all streams to their default state.
+     */
     public static void reset() {
         stdoutMapOutputStream = new MapOutputStream<>(StdoutStreamMap::new);
         stderrMapOutputStream = new MapOutputStream<>(StderrStreamMap::new);

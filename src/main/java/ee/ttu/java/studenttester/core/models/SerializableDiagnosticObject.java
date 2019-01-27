@@ -65,7 +65,7 @@ public class SerializableDiagnosticObject {
     public String toString() {
         return String.format("%s in %s on line %d, col %s: %s\n%s%s", kind, file, lineNo, columnNo, message,
                 affected == null || sensitive ? "" : String.format("->\t%s\n", affected),
-                hint == null ? "" : String.format("Hint: %s\n", hint)
+                hint == null || "".equals(hint) ? "" : String.format("Hint: %s\n", hint)
             );
     }
 

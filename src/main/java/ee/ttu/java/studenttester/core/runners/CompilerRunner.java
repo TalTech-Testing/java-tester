@@ -88,7 +88,7 @@ public class CompilerRunner extends BaseRunner {
 
             fileManager.close();
 
-            if (successCount < testFiles.size() && separateFileCompilation) {
+            if (successCount > 0 && successCount < testFiles.size() && separateFileCompilation) {
                 // separate succeeded less than total
                 compilerReport.result = RunnerResultType.PARTIAL_SUCCESS;
                 LOG.warning("There was at least one compilation failure");

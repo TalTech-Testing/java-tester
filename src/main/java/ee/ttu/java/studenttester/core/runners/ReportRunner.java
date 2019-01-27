@@ -6,6 +6,7 @@ import ee.ttu.java.studenttester.core.annotations.Identifier;
 import ee.ttu.java.studenttester.core.annotations.Runnable;
 import ee.ttu.java.studenttester.core.enums.RunnerResultType;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
+import ee.ttu.java.studenttester.core.helpers.StreamRedirector;
 import ee.ttu.java.studenttester.core.models.TesterContext;
 import ee.ttu.java.studenttester.core.models.reports.PlainTextReport;
 
@@ -41,6 +42,7 @@ public class ReportRunner extends BaseRunner {
 
     @Override
     public void run() throws StudentTesterException {
+        StreamRedirector.reset();
         plainTextReport.result = RunnerResultType.SUCCESS;
         try {
             if (plainTextOutput || plainTextOutputInJson) {

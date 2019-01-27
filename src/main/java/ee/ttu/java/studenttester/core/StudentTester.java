@@ -2,11 +2,15 @@ package ee.ttu.java.studenttester.core;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
-import ee.ttu.java.studenttester.hodor.Shim;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
 import ee.ttu.java.studenttester.core.helpers.ContextBuilder;
+import ee.ttu.java.studenttester.core.helpers.FileArgsReader;
 import ee.ttu.java.studenttester.core.models.TesterContext;
+import ee.ttu.java.studenttester.core.validators.FileParameterValidator;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class StudentTester {
@@ -18,6 +22,14 @@ public class StudentTester {
 
     @Parameter(names = {"--help", "-h"})
     private boolean printUsage = false;
+
+    @Parameter(
+            names = {"--inputArgs", "-in"},
+            description = "Input file to be used in place of other arguments.",
+            order = 10,
+            validateValueWith = FileParameterValidator.class
+    )
+    private File inputFile;
 
     public void run() {
         if (running) {
@@ -39,13 +51,8 @@ public class StudentTester {
     }
 
     public static void main(String... args) {
-        // check if arguments passed via stdin in special format
-        var stdinArgs = Shim.getArgsFromStdin();
-        if (stdinArgs != null) {
-            args = stdinArgs;
-        }
-
         long start = System.currentTimeMillis();
+        LOG.info("Running StudentTester, build " + StudentTester.class.getPackage().getImplementationVersion());
         StudentTester tester = new StudentTester();
         JCommander.newBuilder()
                 .addObject(tester)
@@ -54,8 +61,13 @@ public class StudentTester {
                 .parse(args);
         if (args.length == 0 || tester.printUsage) {
             ContextBuilder.generateUsageAndExit();
+        } else if (tester.inputFile != null) {
+            var stdinArgs = FileArgsReader.getArgsFromFile(tester.inputFile);
+            var argsList = new ArrayList<>(Arrays.asList(args));
+            argsList.addAll(Arrays.asList(stdinArgs));
+            args = argsList.toArray(String[]::new);
         }
-        LOG.info("Running StudentTester, build " + StudentTester.class.getPackage().getImplementationVersion());
+        LOG.info("Program arguments: " + Arrays.asList(args));
         tester.context = ContextBuilder.builder(args).buildContext();
         tester.run();
         LOG.info(String.format("Finished running, elapsed time %dms", System.currentTimeMillis() - start));

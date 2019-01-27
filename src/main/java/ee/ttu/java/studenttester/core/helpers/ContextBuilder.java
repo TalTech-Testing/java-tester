@@ -2,6 +2,7 @@ package ee.ttu.java.studenttester.core.helpers;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import ee.ttu.java.studenttester.core.StudentTester;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
 import ee.ttu.java.studenttester.core.annotations.Runnable;
 import ee.ttu.java.studenttester.core.runners.BaseRunner;
@@ -58,6 +59,7 @@ public class ContextBuilder {
         }
 
         var runnerPopulator = JCommander.newBuilder()
+                .addObject(new StudentTester())
                 .addObject(this)
                 .addObject(context);
 

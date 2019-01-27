@@ -1,4 +1,4 @@
-package ee.ttu.java.studenttester.hodor;
+package ee.ttu.java.studenttester.core.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
