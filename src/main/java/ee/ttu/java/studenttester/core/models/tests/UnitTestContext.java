@@ -2,7 +2,7 @@ package ee.ttu.java.studenttester.core.models.tests;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ee.ttu.java.studenttester.annotations.Gradeable;
+import ee.ttu.java.studenttester.annotations.Gradable;
 import ee.ttu.java.studenttester.core.helpers.AnnotationUtils;
 import ee.ttu.java.studenttester.enums.ReportMode;
 import ee.ttu.java.studenttester.core.enums.TestResultType;
@@ -47,7 +47,7 @@ public class UnitTestContext {
         allResults.addAll(originalContext.getSkippedTests().getAllResults());
 
         for (ITestResult testNGResult : allResults) {
-            Gradeable testMetadata = AnnotationUtils.getGradeable(testNGResult);
+            Gradable testMetadata = AnnotationUtils.getGradable(testNGResult);
 
             var unitTestResult = new SingleResult();
 

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Runnable(identifier = Identifier.REPORT, order = 50)
 public class ReportRunner extends BaseRunner {
@@ -46,9 +47,12 @@ public class ReportRunner extends BaseRunner {
         plainTextReport.result = RunnerResultType.SUCCESS;
         try {
             if (plainTextOutput || plainTextOutputInJson) {
-                plainTextReport.output = context.results.stream()
+                plainTextReport.output = Stream.concat(
+                        Stream.of("TEST RESULTS \uD83D\uDCC3"),
+                        context.results.stream()
+                )
                         .map(Objects::toString)
-                        .collect(Collectors.joining());
+                        .collect(Collectors.joining("\n\n"));
             }
             if (plainTextOutput && !plainTextOutputInJson) {
                 if (context.outputFile != null) {

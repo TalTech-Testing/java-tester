@@ -29,7 +29,7 @@ public class CheckStyleReport extends AbstractReport {
     @Override
     public String toString() {
         var builder = new StringBuilder();
-        builder.append("* Checkstyle report *\n")
+        builder.append("✏ Checkstyle report ✏\n\n")
                 .append("Found errors: ");
         if (result != RunnerResultType.SUCCESS) {
             builder.append("? (stylecheck failed unexpectedly)");
@@ -39,12 +39,11 @@ public class CheckStyleReport extends AbstractReport {
         builder.append("\n");
         var groups = errors.stream().collect(Collectors.groupingBy(a -> a.fileName));
         for (var group : groups.values()) {
-            builder.append(group.get(0));
+            builder.append(group.get(0)).append('\n');
             group.stream()
                     .skip(1)
                     .forEach(a -> builder.append(a.toStringAsNext()).append('\n'));
         }
-        builder.append("\n\n");
         return builder.toString();
     }
 

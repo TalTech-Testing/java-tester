@@ -73,12 +73,12 @@ public class TestNGReport extends AbstractReport {
     @Override
     public String toString() {
         var globalOutputBuilder = new StringBuilder()
-                .append("* Unit tests *");
+                .append("⌛ Unit tests ⌛\n\n");
 
         testContexts.forEach(globalOutputBuilder::append);
 
         if (testContexts.isEmpty()) {
-            globalOutputBuilder.append("\nThere are no results.\n");
+            globalOutputBuilder.append("There are no results.\n");
         } else if (testContexts.stream().noneMatch(c -> c.mode == ReportMode.MUTED)) {
             globalOutputBuilder.append(String.format("\nOverall grade: %.1f%%%s\n", getTotalGrade() * 100,
                     result != RunnerResultType.SUCCESS ? "*\nFinal result based on only successfully compiled tests" : ""));

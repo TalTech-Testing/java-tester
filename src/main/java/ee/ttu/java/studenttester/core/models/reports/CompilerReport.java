@@ -22,7 +22,7 @@ public class CompilerReport extends AbstractReport {
     @Override
     public String toString() {
         var builder = new StringBuilder()
-            .append("* Compiler report *\n");
+            .append("⚙ Compiler report ⚙\n\n");
 
         switch (result) {
             case NOT_RUN:
@@ -43,6 +43,6 @@ public class CompilerReport extends AbstractReport {
             diagnosticList.forEach(builder::append);
         }
 
-        return builder.append('\n').toString();
+        return builder.toString();
     }
 }

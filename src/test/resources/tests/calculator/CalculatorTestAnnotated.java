@@ -2,7 +2,7 @@
 
 import static org.junit.Assert.assertEquals;
 
-import ee.ttu.java.studenttester.annotations.Gradeable;
+import ee.ttu.java.studenttester.annotations.Gradable;
 import ee.ttu.java.studenttester.annotations.TestContextConfiguration;
 import ee.ttu.java.studenttester.enums.ReportMode;
 import org.junit.Assert;
@@ -12,7 +12,7 @@ import org.junit.Test;
 public class CalculatorTestAnnotated {
 
     @Test
-    @Gradeable(weight = 3)
+    @Gradable(weight = 3)
     public void evaluatesExpression() {
         Calculator calculator = new Calculator();
         int sum = calculator.evaluate("1+2+3");
@@ -20,7 +20,7 @@ public class CalculatorTestAnnotated {
     }
 
     @Test
-    @Gradeable(weight = 2, description = "desc")
+    @Gradable(weight = 2, description = "desc")
     public void fail() {
         Assert.fail();
     }

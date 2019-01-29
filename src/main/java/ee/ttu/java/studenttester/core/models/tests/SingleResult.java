@@ -23,7 +23,7 @@ public class SingleResult {
 
     public TestResultType status = TestResultType.OTHER;
 
-    // GRADEABLE
+    // GRADABLE
     public int weight;
     public String description;
     public boolean printExceptionMessage;

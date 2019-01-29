@@ -1,6 +1,6 @@
 package ee.ttu.java.studenttester.core.helpers;
 
-import ee.ttu.java.studenttester.annotations.Gradeable;
+import ee.ttu.java.studenttester.annotations.Gradable;
 import ee.ttu.java.studenttester.annotations.TestContextConfiguration;
 import ee.ttu.java.studenttester.enums.ReportMode;
 import org.testng.ITestContext;
@@ -17,11 +17,11 @@ public class AnnotationUtils {
      * @param test - unit test to get the metadata from
      * @return annotation data if found
      */
-    public static Gradeable getGradeable(final ITestResult test) {
+    public static Gradable getGradable(final ITestResult test) {
         Method m = test.getMethod().getConstructorOrMethod().getMethod();
-        Gradeable g = m.getAnnotation(Gradeable.class);
+        Gradable g = m.getAnnotation(Gradable.class);
         if (g == null) {
-            return getMockGradeable();
+            return getMockGradable();
         }
         return g;
     }
@@ -77,12 +77,12 @@ public class AnnotationUtils {
      * Mock annotation for unit tests that don't have one.
      * @return default annotation for tests
      */
-    private static Gradeable getMockGradeable() {
-        return new Gradeable() {
+    private static Gradable getMockGradable() {
+        return new Gradable() {
 
             @Override
             public Class<? extends Annotation> annotationType() {
-                return Gradeable.class;
+                return Gradable.class;
             }
 
             @Override
