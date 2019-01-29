@@ -109,7 +109,11 @@ public class TestNGRunner extends BaseRunner {
         testng.setVerbose(0);
         StreamRedirector.enableNullStdin();
         StreamRedirector.beginRedirect();
-        testng.run();
+        try {
+            testng.run();
+        } finally {
+            StreamRedirector.reset();
+        }
         report.testNGStatus = testng.getStatus();
         if (context.results.getResultByType(CompilerReport.class).result != SUCCESS) {
             report.result = PARTIAL_SUCCESS;

@@ -65,6 +65,8 @@ public class CompilerRunner extends BaseRunner {
                         + " to run this tool. Please check the availability of a JDK");
             }
 
+            adjustSourceDirs();
+
             FileUtils.copyDirectory(context.contentRoot, context.tempRoot);
             FileUtils.copyDirectory(context.testRoot, context.tempRoot);
             var testFiles = new ArrayList<>(FileUtils.listFiles(context.testRoot, JAVA_FILTER, true));
@@ -120,6 +122,22 @@ public class CompilerRunner extends BaseRunner {
                 .flatMap(opt -> Stream.of(opt.getKey(), opt.getValue()))
                 .collect(Collectors.toList());
         return compiler.getTask(compilerWriter, null, diagnosticCollector, opts, null, compilationUnits).call();
+    }
+
+    /**
+     * Check if directories begin with "src" and adjust roots accordingly.
+     */
+    private void adjustSourceDirs() {
+        File hypotheticalTestSrcDir = new File(context.testRoot, "src");
+        if (hypotheticalTestSrcDir.exists() && hypotheticalTestSrcDir.isDirectory()) {
+            LOG.warning("Changing test sources root to " + hypotheticalTestSrcDir.getAbsolutePath());
+            context.testRoot = hypotheticalTestSrcDir;
+        }
+        File hypotheticalCodeSrcDir = new File(context.contentRoot, "src");
+        if (hypotheticalCodeSrcDir.exists() && hypotheticalCodeSrcDir.isDirectory()) {
+            LOG.warning("Changing code sources root to " + hypotheticalCodeSrcDir.getAbsolutePath());
+            context.contentRoot = hypotheticalCodeSrcDir;
+        }
     }
 
     @Override
