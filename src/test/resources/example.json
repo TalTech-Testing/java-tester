@@ -242,6 +242,19 @@
       "message" : "Missing a Javadoc comment."
     } ]
   }, {
+    "result" : "SUCCESS",
+    "files" : [ {
+      "path" : "code/file.java",
+      "contents" : "filefilefile",
+      "isTest" : false
+    }, {
+      "path" : "test/blah.test",
+      "contents" : "asdasdasdasd",
+      "isTest" : true
+    } ],
+    "identifier" : "FILEWRITER",
+    "code" : -123
+  }, {
     "result" : "PARTIAL_SUCCESS",
     "diagnosticList" : [ {
       "kind" : "ERROR",

@@ -19,4 +19,8 @@ public class FileReport extends AbstractReport {
 
     public List<FileResource> files;
 
+    @Override
+    public String toString() {
+        return ""; // should not be visible in the report
+    }
 }
