@@ -71,6 +71,7 @@ public class StudentTester {
         tester.context = ContextBuilder.builder(args).buildContext();
         tester.run();
         LOG.info(String.format("Finished running, elapsed time %dms", System.currentTimeMillis() - start));
+        Runtime.getRuntime().exit(0);
     }
 
 }

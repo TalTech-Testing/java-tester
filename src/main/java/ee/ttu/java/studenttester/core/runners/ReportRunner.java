@@ -48,7 +48,7 @@ public class ReportRunner extends BaseRunner {
         try {
             if (plainTextOutput || plainTextOutputInJson) {
                 plainTextReport.output = Stream.concat(
-                        Stream.of("TEST RESULTS \uD83D\uDCC3"),
+                        Stream.of("TEST RESULTS"),
                         context.results.stream()
                 )
                         .map(Objects::toString)

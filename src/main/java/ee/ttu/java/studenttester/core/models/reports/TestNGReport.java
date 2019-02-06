@@ -73,7 +73,7 @@ public class TestNGReport extends AbstractReport {
     @Override
     public String toString() {
         var globalOutputBuilder = new StringBuilder()
-                .append("⌛ Unit tests ⌛\n\n");
+                .append("* Unit tests *\n\n");
 
         testContexts.forEach(globalOutputBuilder::append);
 

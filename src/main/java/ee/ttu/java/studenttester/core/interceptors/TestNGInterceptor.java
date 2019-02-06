@@ -3,6 +3,7 @@ package ee.ttu.java.studenttester.core.interceptors;
 import ee.ttu.java.studenttester.core.helpers.StderrStreamMap;
 import ee.ttu.java.studenttester.core.helpers.StdoutStreamMap;
 import ee.ttu.java.studenttester.core.helpers.StreamRedirector;
+import ee.ttu.java.studenttester.core.security.SecureEnvironment;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -16,6 +17,7 @@ public class TestNGInterceptor implements ITestListener {
 
     private final Logger LOG = Logger.getLogger(getClass().getName());
 
+    private SecureEnvironment secEnv = SecureEnvironment.getInstance();
     private List<ITestContext> testContexts = new ArrayList<>();
     private Map<ITestResult, Pair<StdoutStreamMap, StderrStreamMap>> testStreams = new LinkedHashMap<>();
 
@@ -28,6 +30,7 @@ public class TestNGInterceptor implements ITestListener {
     }
 
     private void handleTestEnd(ITestResult result) {
+        secEnv.disableCustomSecurityManager();
         testStreams.put(result,
                 new Pair<>(StreamRedirector.getStdoutStreams(), StreamRedirector.getStderrStreams()));
         StreamRedirector.reset();
@@ -44,6 +47,7 @@ public class TestNGInterceptor implements ITestListener {
     @Override
     public void onStart(ITestContext context) {
         testContexts.add(context);
+        secEnv.enableCustomSecurityManager();
         LOG.info(String.format("Starting test context %s", context.getName()));
     }
 
@@ -57,6 +61,7 @@ public class TestNGInterceptor implements ITestListener {
     public void onTestStart(ITestResult result) {
         StreamRedirector.enableNullStdin();
         StreamRedirector.beginRedirect();
+        secEnv.enableCustomSecurityManager();
     }
 
     @Override

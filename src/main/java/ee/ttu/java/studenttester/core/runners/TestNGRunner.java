@@ -4,6 +4,7 @@ import com.beust.jcommander.DynamicParameter;
 import com.beust.jcommander.Parameter;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
 import ee.ttu.java.studenttester.core.annotations.Runnable;
+import ee.ttu.java.studenttester.core.enums.TesterPolicy;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
 import ee.ttu.java.studenttester.core.helpers.ClassUtils;
 import ee.ttu.java.studenttester.core.helpers.StreamRedirector;
@@ -12,6 +13,7 @@ import ee.ttu.java.studenttester.core.models.tests.UnitTestContext;
 import ee.ttu.java.studenttester.core.models.reports.CompilerReport;
 import ee.ttu.java.studenttester.core.models.TesterContext;
 import ee.ttu.java.studenttester.core.models.reports.TestNGReport;
+import ee.ttu.java.studenttester.core.security.SecureEnvironment;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestNGListener;
 import org.testng.TestNG;
@@ -20,6 +22,7 @@ import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,6 +46,7 @@ public class TestNGRunner extends BaseRunner {
     )
     private int timeOut = 15_000;
 
+    private SecureEnvironment secEnv = SecureEnvironment.getInstance();
     private TestNGReport report = new TestNGReport();
 
     public TestNGRunner(TesterContext context) {
@@ -70,6 +74,9 @@ public class TestNGRunner extends BaseRunner {
 
         var testFiles = new ArrayList<>(FileUtils.listFiles(context.testRoot, JAVA_FILTER, true));
         for (var testFile : testFiles) {
+
+            secEnv.addProtectedFile(Paths.get(testFile.toURI())); // add .java file to protected list
+            secEnv.addProtectedFile(Paths.get(testFile.getAbsolutePath().replace(".java", ".class"))); // add .class file to protected list
 
             String testFileAsClassPath = ClassUtils.filePathToClassPath(testFile, context.testRoot);
 
@@ -103,16 +110,31 @@ public class TestNGRunner extends BaseRunner {
             }
         }
 
+        var codeFiles = new ArrayList<>(FileUtils.listFiles(context.contentRoot, JAVA_FILTER, true));
+        for (var codeFile : codeFiles) {
+            String codeFileAsClassPath = ClassUtils.filePathToClassPath(codeFile, context.contentRoot);
+            try {
+                Class unsafeClass = getClassLoader().loadClass(codeFileAsClassPath);
+                secEnv.addClass(unsafeClass);
+            } catch (ClassNotFoundException e) {
+                LOG.warning("Skipping possibly uncompiled class " + codeFileAsClassPath);
+            }
+        }
+
         testng.setXmlSuites(suites);
         testng.setUseDefaultListeners(false);
         testng.addListener((ITestNGListener) report.resultListener);
         testng.setVerbose(0);
         StreamRedirector.enableNullStdin();
         StreamRedirector.beginRedirect();
+        secEnv.setDefaultRestrictions();
+        secEnv.addPolicy(TesterPolicy.DISABLE_SOCKETS);
+        LOG.info("Beginning testing, enabled policies: " + secEnv.getCurrentPolicies());
         try {
             testng.run();
         } finally {
             StreamRedirector.reset();
+            secEnv.resetAll();
         }
         report.testNGStatus = testng.getStatus();
         if (context.results.getResultByType(CompilerReport.class).result != SUCCESS) {

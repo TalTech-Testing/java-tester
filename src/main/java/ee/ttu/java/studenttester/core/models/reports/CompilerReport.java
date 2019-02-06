@@ -22,7 +22,7 @@ public class CompilerReport extends AbstractReport {
     @Override
     public String toString() {
         var builder = new StringBuilder()
-            .append("⚙ Compiler report ⚙\n\n");
+            .append("* Compiler report *\n\n");
 
         switch (result) {
             case NOT_RUN:

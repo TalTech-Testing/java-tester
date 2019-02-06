@@ -29,7 +29,7 @@ public class CheckStyleReport extends AbstractReport {
     @Override
     public String toString() {
         var builder = new StringBuilder();
-        builder.append("✏ Checkstyle report ✏\n\n")
+        builder.append("* Checkstyle report *\n\n")
                 .append("Found errors: ");
         if (result != RunnerResultType.SUCCESS) {
             builder.append("? (stylecheck failed unexpectedly)");
