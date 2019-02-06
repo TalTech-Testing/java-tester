@@ -32,6 +32,8 @@ public class TestNGReport extends AbstractReport {
 
     public List<UnitTestContext> testContexts = new ArrayList<>();
 
+    public boolean securityViolation = false;
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public int getTotalCount() {
         return testContexts.stream()

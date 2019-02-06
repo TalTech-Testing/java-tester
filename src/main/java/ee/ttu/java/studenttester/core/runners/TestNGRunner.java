@@ -134,6 +134,7 @@ public class TestNGRunner extends BaseRunner {
             testng.run();
         } finally {
             StreamRedirector.reset();
+            report.securityViolation = secEnv.isTriggered();
             secEnv.resetAll();
         }
         report.testNGStatus = testng.getStatus();

@@ -54,6 +54,7 @@ public class SecureEnvironment {
                 try {
                     policy.getConsumer().accept(permission, stack);
                 } catch (SecurityException e) {
+                    triggered = true;
                     // Illegal attempt caught, log an error or do smth
                     LOG.severe(String.format("Illegal attempt caught: %s",  permission.toString()));
                     throw e;
@@ -75,14 +76,19 @@ public class SecureEnvironment {
      * Stores file paths that are "protected" (files with these names cannot be read or written to).
      */
     private static final Set<Path> protectedFiles = new HashSet<>();
+    /**
+     * Indicates whether a security violation has taken place.
+     */
+    private static boolean triggered = false;
 
     /**
      * Restores the original security manager and clears all variables.
      */
     public void resetAll() {
-        this.getClasses().clear();
-        this.getCurrentPolicies().clear();
-        this.getProtectedFiles().clear();
+        triggered = false;
+        classBlacklist.clear();
+        policies.clear();
+        protectedFiles.clear();
         System.setSecurityManager(defaultSecurityManager);
     }
     /**
@@ -139,6 +145,9 @@ public class SecureEnvironment {
     }
     public Set<Path> getProtectedFiles() {
         return protectedFiles;
+    }
+    public boolean isTriggered() {
+        return triggered;
     }
 
     /**
