@@ -77,7 +77,7 @@ public class UnitTestContext {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public double getGrade() {
         try {
-            return 1.0 * getWeight(PASSED) / getWeight();
+            return 100.0 * getWeight(PASSED) / getWeight();
         } catch (ArithmeticException e) {
             e.printStackTrace();
             return 0;

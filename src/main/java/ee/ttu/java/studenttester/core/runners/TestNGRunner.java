@@ -179,7 +179,7 @@ public class TestNGRunner extends BaseRunner {
                 }
                 index = conf.identifier();
             } else {
-                conf = getMockTestContextConfiguration(conf.mode(), conf.welcomeMessage(), index);
+                conf = getMockTestContextConfiguration(conf.mode(), conf.welcomeMessage(), index + 1);
             }
 
             context.originalContext = tc;

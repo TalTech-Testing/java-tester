@@ -406,7 +406,7 @@
       "welcomeMessage" : null,
       "identifier" : 0,
       "weight" : 7,
-      "grade" : 0.42857142857142855,
+      "grade" : 42.857142857142855,
       "passedCount" : 3,
       "count" : 7
     } ],
@@ -414,6 +414,6 @@
     "code" : 0,
     "totalPassedCount" : 3,
     "totalCount" : 7,
-    "totalGrade" : 0.42857142857142855
+    "totalGrade" : 42.857142857142855
   } ]
 }

@@ -44,7 +44,7 @@ public class TestNGRunnerTest extends BaseTest {
         var report = context.results.getResultByType(TestNGReport.class);
         assertEquals((int) report.testNGStatus, SUCCESS);
         assertEquals(report.getTotalPassedCount(), 1);
-        assertEquals(report.getTotalGrade(), 1.0);
+        assertEquals(report.getTotalGrade(), 100.0);
         assertEquals(report.result, RunnerResultType.SUCCESS);
     }
 
@@ -75,7 +75,7 @@ public class TestNGRunnerTest extends BaseTest {
         var report = context.results.getResultByType(TestNGReport.class);
         assertEquals((int) report.testNGStatus, SUCCESS);
         assertEquals(report.getTotalPassedCount(), 1);
-        assertEquals(report.getTotalGrade(), 1.0);
+        assertEquals(report.getTotalGrade(), 100.0);
         assertEquals(report.result, RunnerResultType.PARTIAL_SUCCESS);
     }
 
@@ -92,7 +92,7 @@ public class TestNGRunnerTest extends BaseTest {
         var report = context.results.getResultByType(TestNGReport.class);
         assertEquals((int) report.testNGStatus, CONTAINS_FAILED);
         assertEquals(report.getTotalPassedCount(), 1);
-        assertEquals(report.getTotalGrade(), 0.5);
+        assertEquals(report.getTotalGrade(), 50.0);
         assertEquals(report.result, RunnerResultType.SUCCESS);
     }
 
@@ -110,7 +110,7 @@ public class TestNGRunnerTest extends BaseTest {
         assertEquals(report.getTotalPassedCount(), 1);
         assertEquals(report.testContexts.get(0).get(PASSED).get(0).weight, 3);
         assertEquals(report.getTotalPassedWeight(), 3);
-        assertEquals(report.getTotalGrade(), 0.6);
+        assertEquals(report.getTotalGrade(), 60.0);
         assertEquals(report.result, RunnerResultType.SUCCESS);
 
         assertEquals(report.testContexts.get(0).get(FAILED).get(0).description, "desc");

@@ -53,7 +53,7 @@ public class TestNGReport extends AbstractReport {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public double getTotalGrade() {
         try {
-            return 1.0 * getTotalPassedWeight()
+            return 100.0 * getTotalPassedWeight()
                     / testContexts.stream()
                     .map(UnitTestContext::getWeight)
                     .mapToInt(Integer::intValue)
