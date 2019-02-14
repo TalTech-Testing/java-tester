@@ -118,7 +118,7 @@ public class UnitTestContext {
             var builder = new StringBuilder();
 
             builder.append(String.format("\n%s\n%s\n", name, endDate));
-            if (!"".equals(welcomeMessage)) {
+            if (!"".equals(welcomeMessage) && welcomeMessage != null) {
                 builder.append(String.format("%s\n", welcomeMessage));
             }
             builder.append(" ---\n");
@@ -130,7 +130,7 @@ public class UnitTestContext {
                                 + "Failed unit tests: %d\n"
                                 + "Skipped unit tests: %d\n"
                                 + "Grade: %.1f%%\n",
-                        getCount(PASSED), getCount(), getCount(FAILED), getCount(SKIPPED), getGrade() * 100));
+                        getCount(PASSED), getCount(), getCount(FAILED), getCount(SKIPPED), getGrade()));
             } else {
                 builder.append("Unit tests were run, but no output will be shown.\n");
             }

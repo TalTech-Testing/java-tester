@@ -82,7 +82,7 @@ public class TestNGReport extends AbstractReport {
         if (testContexts.isEmpty()) {
             globalOutputBuilder.append("There are no results.\n");
         } else if (testContexts.stream().noneMatch(c -> c.mode == ReportMode.MUTED)) {
-            globalOutputBuilder.append(String.format("\nOverall grade: %.1f%%%s\n", getTotalGrade() * 100,
+            globalOutputBuilder.append(String.format("\nOverall grade: %.1f%%%s\n", getTotalGrade(),
                     result != RunnerResultType.SUCCESS ? "*\nFinal result based on only successfully compiled tests" : ""));
         }
 
