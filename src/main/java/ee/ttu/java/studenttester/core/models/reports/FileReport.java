@@ -14,7 +14,7 @@ public class FileReport extends AbstractReport {
 
     @Override
     public int getCode() {
-        return Integer.MIN_VALUE;
+        return 103;
     }
 
     public List<FileResource> files;

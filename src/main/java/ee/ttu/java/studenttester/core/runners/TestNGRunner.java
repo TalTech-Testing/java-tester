@@ -22,6 +22,7 @@ import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -76,7 +77,11 @@ public class TestNGRunner extends BaseRunner {
         for (var testFile : testFiles) {
 
             secEnv.addProtectedFile(Paths.get(testFile.toURI())); // add .java file to protected list
-            secEnv.addProtectedFile(Paths.get(testFile.getAbsolutePath().replace(".java", ".class"))); // add .class file to protected list
+            String relativeName = ClassUtils.relativizeFilePath(testFile, context.testRoot);
+            File copiedFile = new File(context.tempRoot, relativeName);
+
+            secEnv.addProtectedFile(Paths.get(copiedFile.toURI())); // add .java file to protected list in temp folder
+            secEnv.addProtectedFile(Paths.get(copiedFile.getAbsolutePath().replace(".java", ".class"))); // add .class file to protected list
 
             String testFileAsClassPath = ClassUtils.filePathToClassPath(testFile, context.testRoot);
 

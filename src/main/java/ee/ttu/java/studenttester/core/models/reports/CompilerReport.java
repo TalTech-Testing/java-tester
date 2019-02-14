@@ -14,7 +14,7 @@ public class CompilerReport extends AbstractReport {
 
     @Override
     public int getCode() {
-        return 5;
+        return 102;
     }
 
     public List<SerializableDiagnosticObject> diagnosticList;

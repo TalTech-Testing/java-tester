@@ -17,7 +17,7 @@ public class CheckStyleReport extends AbstractReport {
 
     @Override
     public int getCode() {
-        return 0;
+        return 101;
     }
 
     @JsonProperty("count")

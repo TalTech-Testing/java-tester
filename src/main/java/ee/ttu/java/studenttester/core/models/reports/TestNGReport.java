@@ -21,7 +21,7 @@ public class TestNGReport extends AbstractReport {
 
     @Override
     public int getCode() {
-        return 0;
+        return 500;
     }
 
     @JsonIgnore
