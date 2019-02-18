@@ -32,29 +32,33 @@ public class SerializableDiagnosticObject {
         this.columnNo = (int) diagnosticObject.getColumnNumber();
         this.message = diagnosticObject.getMessage(Locale.getDefault());
         this.code = diagnosticObject.getCode();
-        this.file = diagnosticObject.getSource().getName();
+        if (diagnosticObject.getSource() != null) {
+            this.file = diagnosticObject.getSource().getName();
+        }
         this.hint = resolveHint();
         this.sensitive = true;
     }
 
     public SerializableDiagnosticObject(Diagnostic<? extends JavaFileObject> diagnosticObject, TesterContext context) {
         this(diagnosticObject);
-        try {
-            int byteCount = (int) (innerDiagnosticObject.getEndPosition() - innerDiagnosticObject.getStartPosition());
-            if (byteCount >= 0) {
-                var file = new RandomAccessFile(this.file, "r");
-                var start = innerDiagnosticObject.getStartPosition();
-                while (file.read() != '\n' && start > 0) {
-                    file.seek(--start);
+        if (this.file != null) {
+            try {
+                int byteCount = (int) (innerDiagnosticObject.getEndPosition() - innerDiagnosticObject.getStartPosition());
+                if (byteCount >= 0) {
+                    var file = new RandomAccessFile(this.file, "r");
+                    var start = innerDiagnosticObject.getStartPosition();
+                    while (file.read() != '\n' && start > 0) {
+                        file.seek(--start);
+                    }
+                    this.affected = file.readLine();
+                    file.close();
                 }
-                this.affected = file.readLine();
-                file.close();
+            } catch (Exception e) {
+                this.affected = String.format("<Error when reading file: %s>", e.getMessage());
             }
-        } catch (Exception e) {
-            this.affected = String.format("<Error when reading file: %s>", e.getMessage());
+            this.file = ClassUtils.relativizeFilePath(new File(this.file), context.tempRoot);
+            this.sensitive = new File(context.testRoot, this.file).exists();
         }
-        this.file = ClassUtils.relativizeFilePath(new File(this.file), context.tempRoot);
-        this.sensitive = new File(context.testRoot, this.file).exists();
     }
 
     public SerializableDiagnosticObject() {
@@ -63,6 +67,9 @@ public class SerializableDiagnosticObject {
 
     @Override
     public String toString() {
+        if (this.file == null) {
+            return String.format("%s: %s\n", kind, message);
+        }
         return String.format("%s in %s on line %d, col %s: %s\n%s%s", kind, file, lineNo, columnNo, message,
                 affected == null || sensitive ? "" : String.format("->\t%s\n", affected),
                 hint == null || "".equals(hint) ? "" : String.format("Hint: %s\n", hint)
