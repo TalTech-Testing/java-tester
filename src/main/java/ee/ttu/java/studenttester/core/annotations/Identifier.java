@@ -5,6 +5,7 @@ public enum Identifier {
     CHECKSTYLE,
     FILEWRITER,
     COMPILER,
+    JAR,
     TESTNG,
     REPORT
 

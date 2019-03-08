@@ -10,6 +10,7 @@ import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = CheckStyleReport.class, name = "CHECKSTYLE"),
         @JsonSubTypes.Type(value = FileReport.class, name = "FILEWRITER"),
+        @JsonSubTypes.Type(value = JarReport.class, name = "JAR"),
         @JsonSubTypes.Type(value = CompilerReport.class, name = "COMPILER"),
         @JsonSubTypes.Type(value = TestNGReport.class, name = "TESTNG"),
         @JsonSubTypes.Type(value = PlainTextReport.class, name = "REPORT"),

@@ -8,11 +8,12 @@ import ee.ttu.java.studenttester.core.enums.TesterPolicy;
 import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
 import ee.ttu.java.studenttester.core.helpers.ClassUtils;
 import ee.ttu.java.studenttester.core.helpers.StreamRedirector;
+import ee.ttu.java.studenttester.core.models.TesterContext;
+import ee.ttu.java.studenttester.core.models.reports.CompilerReport;
+import ee.ttu.java.studenttester.core.models.reports.JarReport;
+import ee.ttu.java.studenttester.core.models.reports.TestNGReport;
 import ee.ttu.java.studenttester.core.models.tests.Output;
 import ee.ttu.java.studenttester.core.models.tests.UnitTestContext;
-import ee.ttu.java.studenttester.core.models.reports.CompilerReport;
-import ee.ttu.java.studenttester.core.models.TesterContext;
-import ee.ttu.java.studenttester.core.models.reports.TestNGReport;
 import ee.ttu.java.studenttester.core.security.SecureEnvironment;
 import org.apache.commons.io.FileUtils;
 import org.testng.ITestNGListener;
@@ -24,10 +25,16 @@ import org.testng.xml.XmlTest;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import static ee.ttu.java.studenttester.core.enums.RunnerResultType.*;
+import static ee.ttu.java.studenttester.core.enums.RunnerResultType.NOT_RUN;
+import static ee.ttu.java.studenttester.core.enums.RunnerResultType.PARTIAL_SUCCESS;
+import static ee.ttu.java.studenttester.core.enums.RunnerResultType.SUCCESS;
 import static ee.ttu.java.studenttester.core.helpers.AnnotationUtils.getClassMetadata;
 import static ee.ttu.java.studenttester.core.helpers.AnnotationUtils.getMockTestContextConfiguration;
 import static ee.ttu.java.studenttester.core.models.tests.Output.MAX_STREAM_READ_SIZE;
@@ -63,7 +70,11 @@ public class TestNGRunner extends BaseRunner {
         }
 
         TestNG testng = new TestNG();
-        testng.addClassLoader(getClassLoader());
+        JarReport jars = context.results.getResultByType(JarReport.class);
+        if (jars != null && jars.jarEnhancedClassLoader != null) {
+            getTempClassLoader(jars.jarEnhancedClassLoader, true);
+        }
+        testng.addClassLoader(getTempClassLoader(null, false));
 
         var suite = new XmlSuite();
         var suites = List.of(suite);
@@ -86,7 +97,7 @@ public class TestNGRunner extends BaseRunner {
             String testFileAsClassPath = ClassUtils.filePathToClassPath(testFile, context.testRoot);
 
             try {
-                Class testClass = getClassLoader().loadClass(testFileAsClassPath);
+                Class testClass = getTempClassLoader(null, false).loadClass(testFileAsClassPath);
 
                 XmlTest test;
                 List<XmlClass> classes;
@@ -119,7 +130,7 @@ public class TestNGRunner extends BaseRunner {
         for (var codeFile : codeFiles) {
             String codeFileAsClassPath = ClassUtils.filePathToClassPath(codeFile, context.contentRoot);
             try {
-                Class unsafeClass = getClassLoader().loadClass(codeFileAsClassPath);
+                Class unsafeClass = getTempClassLoader(null, false).loadClass(codeFileAsClassPath);
                 secEnv.addClass(unsafeClass);
             } catch (ClassNotFoundException e) {
                 LOG.warning("Skipping possibly uncompiled class " + codeFileAsClassPath);

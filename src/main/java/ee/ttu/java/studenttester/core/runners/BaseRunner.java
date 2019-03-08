@@ -39,9 +39,14 @@ public abstract class BaseRunner {
      * Gets the class loader associated with the temporary directory.
      * @return class loader
      */
-    protected ClassLoader getClassLoader() throws MalformedURLException {
-        if (classLoader == null) {
-            classLoader = URLClassLoader.newInstance(new URL[] {context.tempRoot.toURI().toURL()});
+    protected ClassLoader getTempClassLoader(ClassLoader parent, boolean reinitialize) throws MalformedURLException {
+        URL[] urls = {context.tempRoot.toURI().toURL()};
+        if (reinitialize) {
+            if (parent == null) {
+                classLoader = URLClassLoader.newInstance(urls);
+            } else {
+                classLoader = URLClassLoader.newInstance(urls, parent);
+            }
         }
         return classLoader;
     }

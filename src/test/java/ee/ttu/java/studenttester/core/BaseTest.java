@@ -5,6 +5,7 @@ import ee.ttu.java.studenttester.core.models.reports.CompilerReport;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
 import ee.ttu.java.studenttester.core.enums.RunnerResultType;
 import ee.ttu.java.studenttester.core.models.TesterContext;
+import ee.ttu.java.studenttester.core.models.reports.JarReport;
 import ee.ttu.java.studenttester.core.runners.CompilerRunner;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
@@ -12,6 +13,7 @@ import org.testng.annotations.AfterMethod;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLClassLoader;
 
 public abstract class BaseTest {
 
@@ -19,6 +21,10 @@ public abstract class BaseTest {
 
     @AfterMethod
     public void cleanUp() throws Exception {
+        JarReport jarReport = context.results.getResultByType(JarReport.class);
+        if (jarReport != null && jarReport.jarEnhancedClassLoader != null) {
+            ((URLClassLoader) jarReport.jarEnhancedClassLoader).close(); // release jar files
+        }
         if (context.testRoot != null) {
             FileUtils.deleteDirectory(context.testRoot);
         }

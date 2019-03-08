@@ -8,8 +8,11 @@ import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
 import ee.ttu.java.studenttester.core.enums.RunnerResultType;
 import ee.ttu.java.studenttester.core.helpers.ClassUtils;
 import ee.ttu.java.studenttester.core.models.SerializableDiagnosticObject;
+import ee.ttu.java.studenttester.core.models.reports.CheckStyleReport;
 import ee.ttu.java.studenttester.core.models.reports.CompilerReport;
 import ee.ttu.java.studenttester.core.models.TesterContext;
+import ee.ttu.java.studenttester.core.models.reports.JarReport;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 
 import javax.tools.*;
@@ -23,6 +26,9 @@ import java.util.stream.Stream;
 
 @Runnable(identifier = Identifier.COMPILER, order = 5)
 public class CompilerRunner extends BaseRunner {
+
+    private static final String CLASSPATH_SEPARATOR = System.getProperty("path.separator");
+    private final String CLASSPATH_STR = System.getProperty("java.class.path");
 
     private CompilerReport compilerReport = new CompilerReport();
 
@@ -57,6 +63,15 @@ public class CompilerRunner extends BaseRunner {
         }
         javacOpts.put("-encoding", "utf8");
         javacOpts.put("-sourcepath", context.tempRoot.getAbsolutePath());
+
+        JarReport jars = context.results.getResultByType(JarReport.class);
+        if (jars != null && CollectionUtils.isNotEmpty(jars.loadedJars)) {
+            String classPathStr = CLASSPATH_STR;
+            if (classPathStr != null && !classPathStr.isBlank()) {
+                classPathStr = classPathStr + CLASSPATH_SEPARATOR;
+            }
+            javacOpts.put("-classpath", classPathStr + String.join(CLASSPATH_SEPARATOR, jars.loadedJars));
+        }
 
         try {
             compiler = ToolProvider.getSystemJavaCompiler();

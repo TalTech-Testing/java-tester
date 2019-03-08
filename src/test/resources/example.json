@@ -2,6 +2,11 @@
   "contentRoot" : "C:\\Users\\Andres\\Downloads\\StudentTester-master\\examples\\normal2\\contentRoot",
   "testRoot" : "C:\\Users\\Andres\\Downloads\\StudentTester-master\\examples\\normal2\\testRoot",
   "results" : [ {
+    "code" : 123,
+    "identifier" : "JAR",
+    "loadedJars" : [ "C:\\Users\\andresa\\AppData\\Local\\Temp\\1552085902930-1\\lib\\JarBye.jar", "C:\\Users\\andresa\\AppData\\Local\\Temp\\1552085902930-1\\lib\\JarHello.jar" ],
+    "result" : "SUCCESS"
+  }, {
     "identifier" : "CHECKSTYLE",
     "result" : "SUCCESS",
     "code" : 0,
