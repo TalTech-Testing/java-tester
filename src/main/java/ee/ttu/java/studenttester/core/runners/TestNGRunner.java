@@ -73,6 +73,8 @@ public class TestNGRunner extends BaseRunner {
         JarReport jars = context.results.getResultByType(JarReport.class);
         if (jars != null && jars.jarEnhancedClassLoader != null) {
             getTempClassLoader(jars.jarEnhancedClassLoader, true);
+        } else {
+            getTempClassLoader(null, true);
         }
         testng.addClassLoader(getTempClassLoader(null, false));
 
