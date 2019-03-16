@@ -134,6 +134,18 @@ public class TestNGRunnerTest extends BaseTest {
         //TODO: zombie threads
     }
 
+    @Test
+    public void testJavaFXCompile() throws Exception {
+        moveResource("/tests/javafx-stub/JavaFX11.java", context.tempRoot);
+        moveResource("/tests/javafx-stub/JavaFX11Test.java", context.tempRoot);
+        moveResource("/tests/javafx-stub/JavaFX11Test.java", context.testRoot);
+        compileAndExpect(RunnerResultType.SUCCESS);
+        runNew();
+
+        var report = context.results.getResultByType(TestNGReport.class);
+        assertEquals((int) report.testNGStatus, SUCCESS);
+    }
+
     private void runNew() throws Exception {
         var runner = new TestNGRunner(context);
         runner.setTimeOut(TIMEOUT);
