@@ -8,6 +8,7 @@ import ee.ttu.java.studenttester.core.models.FileResource;
 import ee.ttu.java.studenttester.core.models.TesterContext;
 import ee.ttu.java.studenttester.core.models.reports.FileReport;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +20,9 @@ import java.util.Objects;
 
 @Runnable(identifier = Identifier.FILEWRITER, order = 2)
 public class FileWriterRunner extends BaseRunner {
+
+    private static final List<String> KNOWN_TEXT_FILES = Arrays.asList("txt", "properties", "java", "xml", "fxml", "css", "html", "htm", "rst", "md",
+            "js", "json");
 
     public FileWriterRunner(TesterContext context) {
         super(context);
@@ -63,6 +67,10 @@ public class FileWriterRunner extends BaseRunner {
     }
 
     private boolean isTextFile(File file) {
+        if (KNOWN_TEXT_FILES.contains(FilenameUtils.getExtension(file.getName().toLowerCase()))) {
+            // built in detection may not be that good, force some known ones to return true
+            return true;
+        }
         try {
             String contentType = Files.probeContentType(file.toPath());
             if (contentType != null) {
