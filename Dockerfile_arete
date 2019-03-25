@@ -3,4 +3,6 @@ MAINTAINER Andres Antonen <andres.antonen@gmail.com>
 LABEL Description="Hodor Java 11 with StudentTester with Arete-compatible entrypoint"
 COPY build/libs/studenttester-core-2.0.jar StudentTester.jar
 
-ENTRYPOINT [ "sh", "-c", "TMPD=$(mktemp -d); cd $TMPD; java -jar /StudentTester.jar -i /host/input.json -o /host/output.json -tmp $TMPD -r FILEWRITER,COMPILER,TESTNG,REPORT -jsontxt" ]
+RUN echo 'Downloading OpenJFX...'; wget https://gluonhq.com/download/javafx-11-0-2-jmods-linux/ -O jmods.zip; unzip jmods.zip; rm jmods.zip; echo 'OpenJFX module download completed'
+
+ENTRYPOINT [ "sh", "-c", "TMPD=$(mktemp -d); cd $TMPD; java --module-path /javafx-jmods-11.0.2:mods -jar /StudentTester.jar -i /host/input.json -o /host/output.json -tmp $TMPD -r FILEWRITER,COMPILER,TESTNG,REPORT -jsontxt" ]
