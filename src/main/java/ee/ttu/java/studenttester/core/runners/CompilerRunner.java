@@ -8,7 +8,6 @@ import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
 import ee.ttu.java.studenttester.core.enums.RunnerResultType;
 import ee.ttu.java.studenttester.core.helpers.ClassUtils;
 import ee.ttu.java.studenttester.core.models.SerializableDiagnosticObject;
-import ee.ttu.java.studenttester.core.models.reports.CheckStyleReport;
 import ee.ttu.java.studenttester.core.models.reports.CompilerReport;
 import ee.ttu.java.studenttester.core.models.TesterContext;
 import ee.ttu.java.studenttester.core.models.reports.JarReport;
@@ -29,12 +28,13 @@ public class CompilerRunner extends BaseRunner {
 
     private static final String CLASSPATH_SEPARATOR = System.getProperty("path.separator");
     private final String CLASSPATH_STR = System.getProperty("java.class.path");
+    private final String MODULE_PATH_STR = System.getProperty("jdk.module.path");
 
     private CompilerReport compilerReport = new CompilerReport();
 
     @DynamicParameter(
             names = {"-O"},
-            description = "Additional options to pass to the compiler. By default the source path and UTF-8 encoding are forced"
+            description = "Additional options to pass to the compiler. By default the source path, module path and UTF-8 encoding are forced"
     )
     private Map<String, String> javacOpts;
 
@@ -63,6 +63,7 @@ public class CompilerRunner extends BaseRunner {
         }
         javacOpts.put("-encoding", "utf8");
         javacOpts.put("-sourcepath", context.tempRoot.getAbsolutePath());
+        javacOpts.put("--module-path", MODULE_PATH_STR);
 
         JarReport jars = context.results.getResultByType(JarReport.class);
         if (jars != null && CollectionUtils.isNotEmpty(jars.loadedJars)) {
