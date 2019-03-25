@@ -63,7 +63,9 @@ public class CompilerRunner extends BaseRunner {
         }
         javacOpts.put("-encoding", "utf8");
         javacOpts.put("-sourcepath", context.tempRoot.getAbsolutePath());
-        javacOpts.put("--module-path", MODULE_PATH_STR);
+        if (MODULE_PATH_STR != null) {
+            javacOpts.put("--module-path", MODULE_PATH_STR);
+        }
 
         JarReport jars = context.results.getResultByType(JarReport.class);
         if (jars != null && CollectionUtils.isNotEmpty(jars.loadedJars)) {

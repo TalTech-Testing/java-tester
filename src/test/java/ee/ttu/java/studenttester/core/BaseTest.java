@@ -46,7 +46,8 @@ public abstract class BaseTest {
         compiler.setCopyResources(false);
         compiler.run();
         compiler.commit();
-        Assert.assertEquals(context.results.getResultByType(CompilerReport.class).result, expected);
+        Assert.assertEquals(context.results.getResultByType(CompilerReport.class).result, expected,
+                context.results.getResultByType(CompilerReport.class).diagnosticList.toString());
     }
 
     protected void moveResource(String resource, File destination) throws IOException {
