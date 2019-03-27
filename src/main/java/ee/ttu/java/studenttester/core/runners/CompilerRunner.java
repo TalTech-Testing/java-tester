@@ -13,10 +13,14 @@ import ee.ttu.java.studenttester.core.models.TesterContext;
 import ee.ttu.java.studenttester.core.models.reports.JarReport;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.apache.commons.io.filefilter.FileFilterUtils;
 
 import javax.tools.*;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.*;
@@ -27,6 +31,7 @@ import java.util.stream.Stream;
 public class CompilerRunner extends BaseRunner {
 
     private static final String CLASSPATH_SEPARATOR = System.getProperty("path.separator");
+    private static final String MODULE_INFO_JAVA = "module-info.java";
     private final String CLASSPATH_STR = System.getProperty("java.class.path");
     private final String MODULE_PATH_STR = System.getProperty("jdk.module.path");
 
@@ -45,6 +50,14 @@ public class CompilerRunner extends BaseRunner {
             order = 20
     )
     private boolean separateFileCompilation = true;
+
+    @Parameter(
+            names = {"--discardModuleInfo", "-nomod"},
+            description = "Discard module-info.java which may enable non-modular compilation",
+            arity = 1,
+            order = 20
+    )
+    private boolean discardModuleInfo = true;
 
     private boolean copyResources = true;
     private JavaCompiler compiler;
@@ -87,7 +100,24 @@ public class CompilerRunner extends BaseRunner {
 
             FileUtils.copyDirectory(context.contentRoot, context.tempRoot);
             FileUtils.copyDirectory(context.testRoot, context.tempRoot);
-            var testFiles = new ArrayList<>(FileUtils.listFiles(context.testRoot, JAVA_FILTER, true));
+
+            if (discardModuleInfo) {
+                var files = FileUtils.listFiles(context.tempRoot, FileFilterUtils.nameFileFilter(MODULE_INFO_JAVA), DirectoryFileFilter.INSTANCE);
+                files.forEach(file -> {
+                    LOG.info("Renaming file " + file);
+                    if (!file.renameTo(new File(file.getAbsolutePath() + ".txt"))) {
+                        LOG.warning("Unable to rename file " + file);
+                    }
+                });
+            }
+
+            List<File> testFiles = new ArrayList<>(FileUtils.listFiles(context.testRoot, JAVA_FILTER, true));
+
+            if (discardModuleInfo) {
+                testFiles = testFiles.stream()
+                        .filter(f -> !f.getName().equalsIgnoreCase(MODULE_INFO_JAVA))
+                        .collect(Collectors.toList());
+            }
 
             fileManager = compiler.getStandardFileManager(diagnosticCollector, null, null);
             compilerWriter = new StringWriter();

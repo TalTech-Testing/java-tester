@@ -11,16 +11,19 @@ import ee.ttu.java.studenttester.core.models.TesterContext;
 import java.net.http.WebSocket;
 import java.util.*;
 import java.util.function.Function;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ContextBuilder {
+
+    private static final Logger LOG = Logger.getLogger(ContextBuilder.class.getName());
 
     private String[] args;
 
     @Parameter(
             names = {"--runners", "-r"},
             required = true,
-            description = "Comma-separated list of actions to run (see below)",
+            description = "Comma-separated list of actions to run (see below). Prepend runner with ~' to override previous enable",
             order = 5
     )
     private List<String> cmdLineIdentifierStrs;
@@ -52,6 +55,7 @@ public class ContextBuilder {
         try {
             cmdLineIdentifiers = cmdLineIdentifierStrs.stream()
                     .map(String::toUpperCase)
+                    .map(r -> r.replace("~", ""))
                     .map(Identifier::valueOf)
                     .collect(Collectors.toList());
         } catch (IllegalArgumentException e) {
@@ -75,6 +79,16 @@ public class ContextBuilder {
                             LinkedHashMap::new
                         )
                 );
+
+        cmdLineIdentifierStrs.stream()
+                .filter(r -> r.startsWith("~"))
+                .map(String::toUpperCase)
+                .map(r -> r.replace("~", ""))
+                .map(Identifier::valueOf)
+                .forEach(toRemove -> {
+                    LOG.warning(String.format("Removing %s if it was previously enabled", toRemove));
+                    context.runners.remove(toRemove);
+                });
 
         runnerPopulator.build().parse(args);
     }

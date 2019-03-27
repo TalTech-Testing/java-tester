@@ -64,7 +64,7 @@ public class TestNGRunner extends BaseRunner {
     @Override
     public void run() throws Exception {
         if (!canContinue()) {
-            LOG.severe("Unit testing can not be run as the compilation failed.");
+            LOG.severe("Unit testing can not be run as the compilation failed/did not run.");
             report.result = NOT_RUN;
             return;
         }
@@ -170,6 +170,9 @@ public class TestNGRunner extends BaseRunner {
     }
 
     private boolean canContinue() {
+        if (context.results.getResultByType(CompilerReport.class) == null) {
+            return false;
+        }
         var compilationResult = context.results.getResultByType(CompilerReport.class).result;
         return compilationResult == SUCCESS || compilationResult == PARTIAL_SUCCESS;
     }
