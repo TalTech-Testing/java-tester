@@ -200,8 +200,8 @@ public class CompilerRunner extends BaseRunner {
         if ((isGradleLike || isMavenLike) && allowGradleLike) {
             LOG.warning(String.format("Adding Gradle-like %s sources: %s", (test ? "test" : "code"), root));
 
-            accumulator.addAll(getFromDir(new File(root, "src/main/java")));
-            accumulator.addAll(getFromDir(new File(root, "src/test/java")));
+            accumulator.addAll(getJavaFilesFromDir(new File(root, "src/main/java")));
+            accumulator.addAll(getJavaFilesFromDir(new File(root, "src/test/java")));
             copyIfSrcExists(new File(root, "src/main/resources"), dest);
             copyIfSrcExists(new File(root, "src/test/resources"), dest);
 
@@ -212,7 +212,11 @@ public class CompilerRunner extends BaseRunner {
             }
         } else if (srcExists) {
             LOG.warning(String.format("Getting %s files from nested src: %s", (test ? "test" : "code"), hypotheticalSrcDir.getAbsolutePath()));
-            accumulator.addAll(getFromDir(hypotheticalSrcDir));
+            accumulator.addAll(getJavaFilesFromDir(hypotheticalSrcDir));
+
+            // remove the src folder so all files are at the same level, we could move all files inside src, but this is simpler for now
+            FileUtils.copyDirectory(root, dest);
+            FileUtils.deleteDirectory(new File(dest, "src"));
             FileUtils.copyDirectory(hypotheticalSrcDir, dest);
 
             if (test) {
@@ -222,7 +226,7 @@ public class CompilerRunner extends BaseRunner {
             }
         } else {
             LOG.warning(String.format("Getting %s files from: %s", (test ? "test" : "code"), root));
-            accumulator.addAll(getFromDir(root));
+            accumulator.addAll(getJavaFilesFromDir(root));
             FileUtils.copyDirectory(root, dest);
         }
 
@@ -239,7 +243,7 @@ public class CompilerRunner extends BaseRunner {
 	    }
     }
 
-    private static List<File> getFromDir(File sourceDir) {
+    private static List<File> getJavaFilesFromDir(File sourceDir) {
         if (sourceDir.isDirectory()) {
             return new ArrayList<>(FileUtils.listFiles(sourceDir, JAVA_FILTER, true));
         }
