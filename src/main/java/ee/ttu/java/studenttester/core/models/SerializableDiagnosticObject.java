@@ -1,6 +1,7 @@
 package ee.ttu.java.studenttester.core.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import ee.ttu.java.studenttester.core.enums.SourceSetType;
 import ee.ttu.java.studenttester.core.helpers.ClassUtils;
 
 import javax.tools.Diagnostic;
@@ -39,7 +40,8 @@ public class SerializableDiagnosticObject {
         this.sensitive = true;
     }
 
-    public SerializableDiagnosticObject(Diagnostic<? extends JavaFileObject> diagnosticObject, TesterContext context) {
+    public SerializableDiagnosticObject(Diagnostic<? extends JavaFileObject> diagnosticObject,
+                                        TesterContext context) {
         this(diagnosticObject);
         if (this.file != null) {
             try {
@@ -56,8 +58,7 @@ public class SerializableDiagnosticObject {
             } catch (Exception e) {
                 this.affected = String.format("<Error when reading file: %s>", e.getMessage());
             }
-            this.file = ClassUtils.relativizeFilePath(new File(this.file), context.tempRoot);
-            this.sensitive = new File(context.testRoot, this.file).exists();
+            this.sensitive = this.file.startsWith(context.testRoot.getAbsolutePath());
         }
     }
 

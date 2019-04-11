@@ -1,16 +1,45 @@
 package ee.ttu.java.studenttester.core.helpers;
 
+import ee.ttu.java.studenttester.core.enums.SourceSetType;
 import ee.ttu.java.studenttester.core.enums.TestClassType;
+import ee.ttu.java.studenttester.core.security.ExtReflectPermission;
 
 import java.io.File;
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.security.Permission;
 
 import static ee.ttu.java.studenttester.core.enums.TestClassType.*;
 
 public class ClassUtils {
 
+    /**
+     * Converts a file to its relative path compared to some
+     * @param file file to use
+     * @param relativizeAgainst directory to use as base
+     * @param sourceSetType remove "src" or "src/main/java" etc if defined
+     * @return relative path as string
+     */
+    public static String relativizeFilePath(final File file, final File relativizeAgainst, SourceSetType sourceSetType) {
+        String path = relativizeAgainst.toURI().relativize(file.toURI()).getPath();
+        if (sourceSetType == SourceSetType.SRC_MAIN_JAVA) {
+            return path.replaceFirst("src\\/(main|test|resources)\\/java\\/", "");
+        } else if (sourceSetType == SourceSetType.SRC) {
+            return path.replaceFirst("src\\/", "");
+        }
+        return path;
+    }
+
+    /**
+     * Converts a file to its relative path compared to some directory.
+     * @param file file to use
+     * @param relativizeAgainst directory to use as base
+     * @return relative path as string
+     */
     public static String relativizeFilePath(final File file, final File relativizeAgainst) {
-        return relativizeAgainst.toURI().relativize(file.toURI()).getPath();
+        return relativizeFilePath(file, relativizeAgainst, SourceSetType.ROOT);
     }
 
     /**
@@ -64,5 +93,45 @@ public class ClassUtils {
         } else {
             return NOT_TEST_CLASS;
         }
+    }
+
+    private static Class<ExtReflectPermission> extReflectPermissionClass;
+    private static Field accessibleObject, accessibleObjectFlag;
+
+    @SuppressWarnings("unchecked")
+    public static ExtReflectPermission getExtReflectPermission(Permission p) {
+        // here, bare ExtReflectPermission is not the one loaded by Byte Buddy, we need to explicitly load that version
+        if (extReflectPermissionClass == null) {
+            try {
+                extReflectPermissionClass = (Class<ExtReflectPermission>) ClassLoader.getPlatformClassLoader()
+                        .loadClass(ExtReflectPermission.class.getName());
+                accessibleObject = extReflectPermissionClass.getDeclaredField("accessibleObject");
+                accessibleObjectFlag = extReflectPermissionClass.getDeclaredField("flag");
+            } catch (ClassNotFoundException | NoSuchFieldException e) {
+                throw new IllegalStateException("Cannot load " + ExtReflectPermission.class.getName() + " from platform loader", e);
+            }
+        }
+
+        if (extReflectPermissionClass.isInstance(p)) {
+            try {
+                return new ExtReflectPermission((AccessibleObject) accessibleObject.get(p), accessibleObjectFlag.getBoolean(p));
+            } catch (IllegalAccessException e) {
+                throw new IllegalStateException("Cannot load " + ExtReflectPermission.class.getName() + " variable", e);
+            }
+        }
+
+        return null;
+    }
+
+    public static Class getTopLevelClass(Class possibleInnerClass) {
+        Class topLevelClass = possibleInnerClass;
+        while (topLevelClass.getEnclosingClass() != null) {
+            topLevelClass = topLevelClass.getEnclosingClass();
+        }
+        return topLevelClass;
+    }
+
+    private ClassUtils() {
+
     }
 }

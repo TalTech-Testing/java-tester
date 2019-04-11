@@ -7,6 +7,7 @@ import ee.ttu.java.studenttester.core.enums.RunnerResultType;
 import ee.ttu.java.studenttester.core.models.TesterContext;
 import ee.ttu.java.studenttester.core.models.reports.JarReport;
 import ee.ttu.java.studenttester.core.runners.CompilerRunner;
+import ee.ttu.java.studenttester.core.runners.TestNGRunner;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -16,6 +17,12 @@ import java.io.IOException;
 import java.net.URLClassLoader;
 
 public abstract class BaseTest {
+
+    protected static final int HAS_SKIPPED = 2;
+    protected static final int CONTAINS_FAILED = 1;
+    protected static final int SUCCESS = 0; // but not necessarily complete success, as the compiler might have failed
+
+    protected static final int TIMEOUT = 1000;
 
     protected TesterContext context;
 
@@ -56,5 +63,12 @@ public abstract class BaseTest {
 
     private File getFile(String resource) {
         return new File(getClass().getResource(resource).getPath());
+    }
+
+    protected void runNewTestNG() throws Exception {
+        var runner = new TestNGRunner(context);
+        runner.setTimeOut(TIMEOUT);
+        runner.run();
+        runner.commit();
     }
 }

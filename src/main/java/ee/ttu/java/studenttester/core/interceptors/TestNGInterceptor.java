@@ -3,12 +3,12 @@ package ee.ttu.java.studenttester.core.interceptors;
 import ee.ttu.java.studenttester.core.helpers.StderrStreamMap;
 import ee.ttu.java.studenttester.core.helpers.StdoutStreamMap;
 import ee.ttu.java.studenttester.core.helpers.StreamRedirector;
+import ee.ttu.java.studenttester.core.security.RogueThreadHandler;
 import ee.ttu.java.studenttester.core.security.SecureEnvironment;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.internal.collections.Pair;
-import org.testng.internal.thread.ThreadUtil;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -21,32 +21,22 @@ public class TestNGInterceptor implements ITestListener {
     private List<ITestContext> testContexts = new ArrayList<>();
     private Map<ITestResult, Pair<StdoutStreamMap, StderrStreamMap>> testStreams = new LinkedHashMap<>();
 
-    public List<ITestContext> getTestContexts() {
-        return testContexts;
-    }
-
-    public Map<ITestResult, Pair<StdoutStreamMap, StderrStreamMap>> getTestStreams() {
-        return testStreams;
-    }
+    private RogueThreadHandler threadHandler;
 
     private void handleTestEnd(ITestResult result) {
-        secEnv.disableCustomSecurityManager();
+        threadHandler.checkHandleRogueThreads();
+        if (RogueThreadHandler.getRogueThreads().isEmpty()) {
+            secEnv.disableCustomSecurityManager();
+        }
         testStreams.put(result,
                 new Pair<>(StreamRedirector.getStdoutStreams(), StreamRedirector.getStderrStreams()));
         StreamRedirector.reset();
-
-        Thread.getAllStackTraces().keySet().stream()
-                .filter(thread -> thread.getName().startsWith(ThreadUtil.THREAD_NAME))
-                .forEach(thread -> {
-                    LOG.warning(String.format("Found thread %s that seems to be stuck. " +
-                            "Trying to kill and hoping for the best...", thread.getName()));
-                    thread.stop();
-                });
     }
 
     @Override
     public void onStart(ITestContext context) {
         testContexts.add(context);
+        threadHandler = new RogueThreadHandler();
         secEnv.enableCustomSecurityManager();
         LOG.info(String.format("Starting test context %s", context.getName()));
     }
@@ -84,5 +74,12 @@ public class TestNGInterceptor implements ITestListener {
         handleTestEnd(result);
     }
 
+    public List<ITestContext> getTestContexts() {
+        return testContexts;
+    }
+
+    public Map<ITestResult, Pair<StdoutStreamMap, StderrStreamMap>> getTestStreams() {
+        return testStreams;
+    }
 
 }

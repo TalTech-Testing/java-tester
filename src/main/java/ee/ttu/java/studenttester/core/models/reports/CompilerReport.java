@@ -1,8 +1,12 @@
 package ee.ttu.java.studenttester.core.models.reports;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ee.ttu.java.studenttester.core.annotations.Identifier;
+import ee.ttu.java.studenttester.core.enums.SourceSetType;
 import ee.ttu.java.studenttester.core.models.SerializableDiagnosticObject;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompilerReport extends AbstractReport {
@@ -18,6 +22,20 @@ public class CompilerReport extends AbstractReport {
     }
 
     public List<SerializableDiagnosticObject> diagnosticList;
+
+    // all files eligible for compilation
+    @JsonIgnore
+    public List<File> codeFilesList = new ArrayList<>();
+
+    @JsonIgnore
+    public List<File> testFilesList = new ArrayList<>();
+
+    @JsonIgnore
+    public SourceSetType codeSourceType = SourceSetType.ROOT;
+
+    @JsonIgnore
+    public SourceSetType testSourceType = SourceSetType.ROOT;
+
 
     @Override
     public String toString() {

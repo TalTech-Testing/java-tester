@@ -1,70 +1,87 @@
 package ee.ttu.java.studenttester.core.enums;
 
 import ee.ttu.java.studenttester.core.interfaces.SecurityPolicy;
+import ee.ttu.java.studenttester.core.security.ExtReflectPermission;
+import ee.ttu.java.studenttester.core.security.PermissionContext;
 import ee.ttu.java.studenttester.core.security.SecureEnvironment;
 
+import java.io.FilePermission;
 import java.io.IOException;
-import java.lang.reflect.ReflectPermission;
+import java.lang.reflect.*;
 import java.net.SocketPermission;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.Permission;
-import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
+import static ee.ttu.java.studenttester.core.helpers.ClassUtils.getExtReflectPermission;
+import static ee.ttu.java.studenttester.core.helpers.ClassUtils.getTopLevelClass;
 
 public enum TesterPolicy implements SecurityPolicy {
+
     /**
      * Disable System.exit().
      */
     DISABLE_EXIT(TesterPolicy::disableExit),
+
     /**
      * Disable <<ALL FILES>>-type file access.
      */
     DISABLE_ANY_FILE_MATCHER(TesterPolicy::disableAnyFileMatcher),
+
     /**
      * Disable System.setSecurityManager().
      */
     DISABLE_SECURITYMANAGER_CHANGE(TesterPolicy::disableSecurityManagerChange),
+
     /**
      * Entrirely disable reflection. Breaks many things such as sockets.
      */
     DISABLE_REFLECTION_STRICT(TesterPolicy::disableReflectionStrict),
+
     /**
      * Disable reflection invoked directly from a blacklisted class.
-     * TODO: find possible ways to perform arbitrary reflection
      */
-    DISABLE_REFLECTION_SHALLOW(TesterPolicy::disableReflectionShallow),
+    DISABLE_REFLECTION_UNTRUSTED(TesterPolicy::disableReflectionUntrustedShallow),
+
+    /**
+     * Disable reflection invoked directly from a blacklisted class targeted at a protected class.
+     */
+    DISABLE_REFLECTION_SELECTIVE(TesterPolicy::disableReflectionSelective),
+
     /**
      * Disable invocation of external commands.
      */
     DISABLE_EXECUTION(TesterPolicy::disableExec),
+
     /**
      * Disable read/write access to test files.
      */
     DISABLE_TEST_SNIFFING(TesterPolicy::disableTestSniffing),
+
     /**
      * Disable Internet access.
      */
     DISABLE_SOCKETS(TesterPolicy::disableSockets);
 
-    private final BiConsumer<Permission, List<Class>> permissionConsumer;
+    public static final String ALL_FILES = "<<ALL FILES>>";
     private static final SecureEnvironment secInstance = SecureEnvironment.getInstance();
+    private final Consumer<PermissionContext> permissionConsumer;
 
-    TesterPolicy(BiConsumer<Permission, List<Class>> permissionConsumer) {
+    TesterPolicy(Consumer<PermissionContext> permissionConsumer) {
         this.permissionConsumer = permissionConsumer;
     }
 
-    public BiConsumer<Permission, List<Class>> getConsumer() {
+    public Consumer<PermissionContext> getConsumer() {
         return this.permissionConsumer;
     }
 
     /**
      * Checks if the permission is about exiting the VM.
-     * @param p - permission to check
+     * @param pc - permission context to check
      */
-    private static void disableExit(Permission p, List<Class> stack) {
-        if (p.getName() != null && p.getName().contains("exitVM")) {
+    private static void disableExit(PermissionContext pc) {
+        if (pc.permission.getName() != null && pc.permission.getName().contains("exitVM")) {
             throw new SecurityException("Illegal attempt to exit the JVM.");
         }
     }
@@ -72,49 +89,51 @@ public enum TesterPolicy implements SecurityPolicy {
     /**
      * Checks if the permission is about accessing any file. Good for disabling commands without an explicit path but not
      * much else.
-     * @param p - permission to check
+     * @param pc - permission context to check
      */
-    private static void disableAnyFileMatcher(Permission p, List<Class> stack) {
-        if (p.getName().contains("<<ALL FILES>>")) {
+    private static void disableAnyFileMatcher(PermissionContext pc) {
+        if (!(pc.permission instanceof FilePermission)) {
+            return;
+        }
+        if (pc.permission.getName().contains(ALL_FILES)) {
             throw new SecurityException("Illegal attempt to access the file system.");
         }
     }
 
     /**
      * Checks if the permission is about changing the security manager.
-     * @param p - permission to check
+     * @param pc - permission context to check
      */
-    private static void disableSecurityManagerChange(Permission p, List<Class> stack) {
-        if (p.getName().contains("setSecurityManager")) {
+    private static void disableSecurityManagerChange(PermissionContext pc) {
+        if (pc.permission.getName().contains("setSecurityManager")) {
             throw new SecurityException("Illegal attempt to modify the security manager.");
         }
     }
 
     /**
      * Checks if the permission is about reflection.
-     * @param p - permission to check
+     * @param pc - permission context to check
      */
-    private static void disableReflectionStrict(Permission p, List<Class> stack) {
-        if (p instanceof ReflectPermission) {
+    private static void disableReflectionStrict(PermissionContext pc) {
+        if (pc.permission instanceof ReflectPermission) {
             throw new SecurityException("Illegal attempt to use reflection.");
         }
     }
 
     /**
      * Checks if the permission is about reflection and is invoked directly by a blacklisted class.
-     * @param p - permission to check
+     * @param pc - permission context to check
      */
-    private static void disableReflectionShallow(Permission p, List<Class> stack) {
-        if (p instanceof ReflectPermission) {
-            var optionalClass = stack.stream()
+    private static void disableReflectionUntrustedShallow(PermissionContext pc) {
+        if (pc.permission instanceof ReflectPermission) {
+            var optionalClass = pc.executionStack.stream()
                     .skip(1)
                     .filter(c -> !c.getPackage().getName().startsWith("java.lang.reflect"))
                     .findFirst();
             optionalClass.ifPresent(caller -> {
-                while (caller.getEnclosingClass() != null) {
-                    caller = caller.getEnclosingClass();
-                }
-                if (secInstance.getClasses().contains(caller)) {
+                // get the top level class to find the source
+                caller = getTopLevelClass(caller);
+                if (secInstance.getBlackListedClasses().contains(caller)) {
                     throw new SecurityException("Illegal attempt to use reflection.");
                 }
             });
@@ -122,24 +141,44 @@ public enum TesterPolicy implements SecurityPolicy {
     }
 
     /**
-     * Checks if the permission has "execute" flag set.
-     * @param p - permission to check
+     * Checks if the permission is about reflection and is invoked directly by a blacklisted class.
+     * @param pc - permission context to check
      */
-    private static void disableExec(Permission p, List<Class> stack) {
-        if (p.getActions().contains("execute")) {
-            throw new SecurityException(String.format("Illegal attempt to execute a resource: %s", p.getName()));
+    private static void disableReflectionSelective(PermissionContext pc) {
+        ExtReflectPermission ep = getExtReflectPermission(pc.permission);
+        if (ep != null) {
+            AccessibleObject ao = ep.accessibleObject;
+            if (ao instanceof Member) {
+                Class declaringClass = getTopLevelClass(((Member) ao).getDeclaringClass());
+                if (pc.secureEnvironment.getProtectedClasses().contains(declaringClass)) {
+                    throw new SecurityException("Illegal attempt to access a class: " + declaringClass);
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks if the permission has "execute" flag set.
+     * @param pc - permission context to check
+     */
+    private static void disableExec(PermissionContext pc) {
+        if (pc.permission.getActions().contains("execute")) {
+            throw new SecurityException(String.format("Illegal attempt to execute a resource: %s", pc.permission.getName()));
         }
     }
 
     /**
      * Checks if the permission attempts to access any protected file.
-     * @param p - permission to check
+     * @param pc - permission context to check
      */
-    private static void disableTestSniffing(Permission p, List<Class> stack) {
+    private static void disableTestSniffing(PermissionContext pc) {
+        if (!(pc.permission instanceof FilePermission)) {
+            return;
+        }
         for (Path path : secInstance.getProtectedFiles()) {
             try {
-                if (Files.isSameFile(path, Paths.get(p.getName()))) {
-                    throw new SecurityException(String.format("Illegal attempt to access resource: %s", p.getName()));
+                if (pc.permission.getName().equals(ALL_FILES) || Files.isSameFile(path, Paths.get(pc.permission.getName()))) {
+                    throw new SecurityException(String.format("Illegal attempt to access resource: %s", pc.permission.getName()));
                 }
             } catch (IOException e) {
                 // ignore, the file probably does not exist or is not accessible anyway.
@@ -149,11 +188,11 @@ public enum TesterPolicy implements SecurityPolicy {
 
     /**
      * Checks if the permission is about network sockets.
-     * @param p - permission to check
+     * @param pc - permission context to check
      */
-    private static void disableSockets(Permission p, List<Class> stack) {
-        if (p instanceof SocketPermission) {
-            throw new SecurityException(String.format("Illegal attempt to open a network socket: %s", p.getName()));
+    private static void disableSockets(PermissionContext pc) {
+        if (pc.permission instanceof SocketPermission) {
+            throw new SecurityException(String.format("Illegal attempt to open a network socket: %s", pc.permission.getName()));
         }
     }
 }

@@ -15,12 +15,6 @@ import static org.testng.Assert.*;
 
 public class TestNGRunnerTest extends BaseTest {
 
-    private static final int HAS_SKIPPED = 2;
-    private static final int CONTAINS_FAILED = 1;
-    private static final int SUCCESS = 0; // but not necessarily complete success, as the compiler might have failed
-
-    private static final int TIMEOUT = 1000;
-
     @BeforeMethod
     private void before() {
         initContext();
@@ -29,7 +23,7 @@ public class TestNGRunnerTest extends BaseTest {
     @Test
     public void testNoFiles() throws Exception {
         compileAndExpect(RunnerResultType.NOT_RUN);
-        runNew();
+        runNewTestNG();
         assertEquals(context.results.getResultByType(TestNGReport.class).result, RunnerResultType.NOT_RUN);
     }
 
@@ -39,7 +33,7 @@ public class TestNGRunnerTest extends BaseTest {
         moveResource("/tests/calculator/CalculatorTest.java", context.tempRoot);
         moveResource("/tests/calculator/CalculatorTest.java", context.testRoot);
         compileAndExpect(RunnerResultType.SUCCESS);
-        runNew();
+        runNewTestNG();
 
         var report = context.results.getResultByType(TestNGReport.class);
         assertEquals((int) report.testNGStatus, SUCCESS);
@@ -54,7 +48,7 @@ public class TestNGRunnerTest extends BaseTest {
         moveResource("/tests/calculator/CalculatorTest.java", context.tempRoot);
         moveResource("/tests/calculator/CalculatorTest.java", context.testRoot);
         compileAndExpect(RunnerResultType.SUCCESS);
-        runNew();
+        runNewTestNG();
 
         var report = context.results.getResultByType(TestNGReport.class);
         assertEquals((int) report.testNGStatus, CONTAINS_FAILED);
@@ -70,7 +64,7 @@ public class TestNGRunnerTest extends BaseTest {
         moveResource("/tests/calculator/bad/CalculatorTestBad.java", context.testRoot);
         moveResource("/tests/calculator/CalculatorTest.java", context.testRoot);
         compileAndExpect(RunnerResultType.PARTIAL_SUCCESS);
-        runNew();
+        runNewTestNG();
 
         var report = context.results.getResultByType(TestNGReport.class);
         assertEquals((int) report.testNGStatus, SUCCESS);
@@ -87,7 +81,7 @@ public class TestNGRunnerTest extends BaseTest {
         moveResource("/tests/calculator/bad/CalculatorTestBad2.java", context.testRoot);
         moveResource("/tests/calculator/CalculatorTest.java", context.testRoot);
         compileAndExpect(RunnerResultType.SUCCESS);
-        runNew();
+        runNewTestNG();
 
         var report = context.results.getResultByType(TestNGReport.class);
         assertEquals((int) report.testNGStatus, CONTAINS_FAILED);
@@ -102,7 +96,7 @@ public class TestNGRunnerTest extends BaseTest {
         moveResource("/tests/calculator/CalculatorTestAnnotated.java", context.tempRoot);
         moveResource("/tests/calculator/CalculatorTestAnnotated.java", context.testRoot);
         compileAndExpect(RunnerResultType.SUCCESS);
-        runNew();
+        runNewTestNG();
 
         var report = context.results.getResultByType(TestNGReport.class);
 
@@ -124,7 +118,7 @@ public class TestNGRunnerTest extends BaseTest {
         moveResource("/tests/stuck/InfiniteLoopTest.java", context.tempRoot);
         moveResource("/tests/stuck/InfiniteLoopTest.java", context.testRoot);
         compileAndExpect(RunnerResultType.SUCCESS);
-        runNew();
+        runNewTestNG();
 
         var report = context.results.getResultByType(TestNGReport.class);
         assertEquals((int) report.testNGStatus, CONTAINS_FAILED);
@@ -140,16 +134,11 @@ public class TestNGRunnerTest extends BaseTest {
         moveResource("/tests/javafx-stub/JavaFX11Test.java", context.tempRoot);
         moveResource("/tests/javafx-stub/JavaFX11Test.java", context.testRoot);
         compileAndExpect(RunnerResultType.SUCCESS);
-        runNew();
+        runNewTestNG();
 
         var report = context.results.getResultByType(TestNGReport.class);
         assertEquals((int) report.testNGStatus, SUCCESS);
     }
 
-    private void runNew() throws Exception {
-        var runner = new TestNGRunner(context);
-        runner.setTimeOut(TIMEOUT);
-        runner.run();
-        runner.commit();
-    }
+
 }

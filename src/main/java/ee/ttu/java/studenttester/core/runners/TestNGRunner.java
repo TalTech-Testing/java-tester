@@ -86,20 +86,28 @@ public class TestNGRunner extends BaseRunner {
             suite.setParameters(unitTestParams);
         }
 
-        var testFiles = new ArrayList<>(FileUtils.listFiles(context.testRoot, JAVA_FILTER, true));
+        // if the output file exists, add it to the protection list
+        if (context.outputFile != null) {
+            secEnv.addProtectedFile(Paths.get(context.outputFile.toURI()));
+        }
+
+        var testSourceSetType = context.results.getResultByType(CompilerReport.class).testSourceType;
+        var testFiles = context.results.getResultByType(CompilerReport.class).testFilesList;
+
         for (var testFile : testFiles) {
 
             secEnv.addProtectedFile(Paths.get(testFile.toURI())); // add .java file to protected list
-            String relativeName = ClassUtils.relativizeFilePath(testFile, context.testRoot);
+            String relativeName = ClassUtils.relativizeFilePath(testFile, context.testRoot, testSourceSetType);
             File copiedFile = new File(context.tempRoot, relativeName);
 
             secEnv.addProtectedFile(Paths.get(copiedFile.toURI())); // add .java file to protected list in temp folder
             secEnv.addProtectedFile(Paths.get(copiedFile.getAbsolutePath().replace(".java", ".class"))); // add .class file to protected list
 
-            String testFileAsClassPath = ClassUtils.filePathToClassPath(testFile, context.testRoot);
+            String testFileAsClassPath = ClassUtils.filePathToClassPath(copiedFile, context.tempRoot);
 
             try {
                 Class testClass = getTempClassLoader(null, false).loadClass(testFileAsClassPath);
+                secEnv.addProtectedClass(testClass);
 
                 XmlTest test;
                 List<XmlClass> classes;
@@ -109,14 +117,14 @@ public class TestNGRunner extends BaseRunner {
                         test = new XmlTest(suite);
                         classes = List.of(new XmlClass(testClass));
                         test.setXmlClasses(classes);
-                        test.setName(ClassUtils.filePathToClassPath(testFile, context.testRoot) + " (JUnit)");
+                        test.setName(testFileAsClassPath + " (JUnit)");
                         test.setJunit(true);
                         break;
                     case TESTNG:
                         test = new XmlTest(suite);
                         classes = List.of(new XmlClass(testClass));
                         test.setXmlClasses(classes);
-                        test.setName(ClassUtils.filePathToClassPath(testFile, context.testRoot) + " (TestNG)");
+                        test.setName(testFileAsClassPath + " (TestNG)");
                         break;
                     case MIXED:
                         LOG.warning(String.format("Skipping class %s due to mixed usage of test annotations", testFileAsClassPath));
@@ -128,12 +136,15 @@ public class TestNGRunner extends BaseRunner {
             }
         }
 
-        var codeFiles = new ArrayList<>(FileUtils.listFiles(context.contentRoot, JAVA_FILTER, true));
+        var codeSourceSetType = context.results.getResultByType(CompilerReport.class).codeSourceType;
+        var codeFiles = context.results.getResultByType(CompilerReport.class).codeFilesList;
+
         for (var codeFile : codeFiles) {
-            String codeFileAsClassPath = ClassUtils.filePathToClassPath(codeFile, context.contentRoot);
+            String relativeName = ClassUtils.relativizeFilePath(codeFile, context.contentRoot, codeSourceSetType);
+            String codeFileAsClassPath = ClassUtils.filePathToClassPath(new File(context.tempRoot, relativeName), context.tempRoot);
             try {
                 Class unsafeClass = getTempClassLoader(null, false).loadClass(codeFileAsClassPath);
-                secEnv.addClass(unsafeClass);
+                secEnv.addClassToBlacklist(unsafeClass);
             } catch (ClassNotFoundException e) {
                 LOG.warning("Skipping possibly uncompiled class " + codeFileAsClassPath);
             }
@@ -146,14 +157,13 @@ public class TestNGRunner extends BaseRunner {
         StreamRedirector.enableNullStdin();
         StreamRedirector.beginRedirect();
         secEnv.setDefaultRestrictions();
-        secEnv.addPolicy(TesterPolicy.DISABLE_SOCKETS);
         LOG.info("Beginning testing, enabled policies: " + secEnv.getCurrentPolicies());
         try {
             testng.run();
         } finally {
             StreamRedirector.reset();
             report.securityViolation = secEnv.isTriggered();
-            secEnv.resetAll();
+            //secEnv.resetAll();
         }
         report.testNGStatus = testng.getStatus();
         if (context.results.getResultByType(CompilerReport.class).result != SUCCESS) {
