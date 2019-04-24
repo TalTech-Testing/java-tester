@@ -3,4 +3,4 @@ MAINTAINER Andres Antonen <andres.antonen@gmail.com>
 LABEL Description="Hodor Java 11 with StudentTester with Arete-compatible entrypoint"
 COPY build/libs/studenttester-core-2.0.jar StudentTester.jar
 
-ENTRYPOINT [ "sh", "-c", "TMPD=$(mktemp -d); cd $TMPD; java -jar /StudentTester.jar -i /host/input.json -o /host/output.json -tmp $TMPD -r FILEWRITER,COMPILER,TESTNG,REPORT -jsontxt > >(tee /host/stdout.log) 2> >(tee /host/stderr.log >&2)" ]
+ENTRYPOINT [ "sh", "-c", "TIMEVAR=$(date +%s%N); TMPD=$(mktemp -d); cd $TMPD; java -jar /StudentTester.jar -i /host/input.json -o /host/output.json -tmp $TMPD -r FILEWRITER,COMPILER,TESTNG,REPORT -jsontxt > >(tee /testing-logs/$TIMEVAR-stdout.log) 2> >(tee /testing-logs/$TIMEVAR-stderr.log >&2)" ]
