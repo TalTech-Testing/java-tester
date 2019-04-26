@@ -2,6 +2,7 @@ package ee.ttu.java.studenttester.core.helpers;
 
 import ee.ttu.java.studenttester.annotations.Gradable;
 import ee.ttu.java.studenttester.annotations.TestContextConfiguration;
+import ee.ttu.java.studenttester.core.enums.TesterPolicy;
 import ee.ttu.java.studenttester.enums.ReportMode;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -65,6 +66,16 @@ public class AnnotationUtils {
             @Override
             public int identifier() {
                 return identifier;
+            }
+
+            @Override
+            public TesterPolicy[] enablePolicies() {
+                return new TesterPolicy[0];
+            }
+
+            @Override
+            public TesterPolicy[] disablePolicies() {
+                return new TesterPolicy[0];
             }
         };
     }

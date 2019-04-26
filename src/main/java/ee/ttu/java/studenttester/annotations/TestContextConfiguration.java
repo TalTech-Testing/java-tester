@@ -1,6 +1,7 @@
 package ee.ttu.java.studenttester.annotations;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ee.ttu.java.studenttester.core.enums.TesterPolicy;
 import ee.ttu.java.studenttester.enums.ReportMode;
 
 import java.lang.annotation.*;
@@ -38,4 +39,19 @@ public @interface TestContextConfiguration {
      */
     @JsonProperty
     int identifier() default -1;
+
+    /**
+     * Defines a list of explicitly enabled policies.
+     * Other policies from the default set will also be active.
+     * @return list of explicitly enabled policies
+     */
+    TesterPolicy[] enablePolicies() default {};
+
+    /**
+     * Defines a list of explicitly disabled policies.
+     * Other policies from the default will still be active.
+     * @return list of explicitly disabled policies
+     */
+    TesterPolicy[] disablePolicies() default {};
+
 }

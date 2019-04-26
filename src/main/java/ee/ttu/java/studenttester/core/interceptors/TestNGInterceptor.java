@@ -1,5 +1,7 @@
 package ee.ttu.java.studenttester.core.interceptors;
 
+import ee.ttu.java.studenttester.annotations.TestContextConfiguration;
+import ee.ttu.java.studenttester.core.exceptions.StudentTesterException;
 import ee.ttu.java.studenttester.core.helpers.StderrStreamMap;
 import ee.ttu.java.studenttester.core.helpers.StdoutStreamMap;
 import ee.ttu.java.studenttester.core.helpers.StreamRedirector;
@@ -12,6 +14,9 @@ import org.testng.internal.collections.Pair;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
+
+import static ee.ttu.java.studenttester.core.helpers.AnnotationUtils.getClassMetadata;
 
 public class TestNGInterceptor implements ITestListener {
 
@@ -38,7 +43,16 @@ public class TestNGInterceptor implements ITestListener {
         testContexts.add(context);
         threadHandler = new RogueThreadHandler();
         secEnv.enableCustomSecurityManager();
-        LOG.info(String.format("Starting test context %s", context.getName()));
+        secEnv.setDefaultRestrictions();
+        TestContextConfiguration classMetadata = getClassMetadata(context);
+        if (!Collections.disjoint(Arrays.asList(classMetadata.disablePolicies()), Arrays.asList(classMetadata.enablePolicies()))) {
+            throw new StudentTesterException("Cannot enable and disable a policy at the same time!");
+        }
+        Stream.of(classMetadata.disablePolicies())
+                .forEach(secEnv::removePolicy);
+        Stream.of(classMetadata.enablePolicies())
+                .forEach(secEnv::addPolicy);
+        LOG.info(String.format("Starting test context %s, enabled policies %s", context.getName(), secEnv.getCurrentPolicies()));
     }
 
     @Override

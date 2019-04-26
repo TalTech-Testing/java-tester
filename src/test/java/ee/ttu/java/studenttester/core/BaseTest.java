@@ -22,7 +22,7 @@ public abstract class BaseTest {
     protected static final int CONTAINS_FAILED = 1;
     protected static final int SUCCESS = 0; // but not necessarily complete success, as the compiler might have failed
 
-    protected static final int TIMEOUT = 1000;
+    protected static final int TIMEOUT = 5000;
 
     protected TesterContext context;
 

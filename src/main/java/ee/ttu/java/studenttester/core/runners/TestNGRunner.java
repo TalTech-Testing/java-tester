@@ -154,10 +154,6 @@ public class TestNGRunner extends BaseRunner {
         testng.setUseDefaultListeners(false);
         testng.addListener((ITestNGListener) report.resultListener);
         testng.setVerbose(0);
-        StreamRedirector.enableNullStdin();
-        StreamRedirector.beginRedirect();
-        secEnv.setDefaultRestrictions();
-        LOG.info("Beginning testing, enabled policies: " + secEnv.getCurrentPolicies());
         try {
             testng.run();
         } finally {
