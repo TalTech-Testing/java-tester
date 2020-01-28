@@ -36,7 +36,7 @@ public @interface Gradable {
      * @return default false
      */
     @JsonProperty
-    boolean printExceptionMessage() default false;
+    boolean printExceptionMessage() default true;
     /**
      * Determines whether stack trace
      * will be printed.
