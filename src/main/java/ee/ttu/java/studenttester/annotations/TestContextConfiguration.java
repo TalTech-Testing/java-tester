@@ -22,7 +22,7 @@ public @interface TestContextConfiguration {
      * @return verbosity level
      */
     @JsonProperty
-    ReportMode mode() default ReportMode.NORMAL;
+    ReportMode mode() default ReportMode.MAXVERBOSE;
 
     /**
      * Text to be displayed before tests.
