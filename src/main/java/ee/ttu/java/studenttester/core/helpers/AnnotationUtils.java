@@ -108,7 +108,7 @@ public class AnnotationUtils {
 
             @Override
             public boolean printExceptionMessage() {
-                return false;
+                return true;
             }
 
             @Override
