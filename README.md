@@ -54,3 +54,6 @@ Usage: StudentTester [options]
 
 Runners can be any of the following: CHECKSTYLE,FILEWRITER,COMPILER,REPORT,TESTNG,JAR
 ```
+
+### Architecture diagram
+![flow](testeri_cicd.png)

@@ -1,0 +1,54 @@
+stages:
+  - deploy
+
+deploy_latest:
+  tags:
+    - ained
+  stage: deploy
+  script:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker build -f Dockerfile_arete_latest -t automatedtestingservice/java-tester:latest .
+    - docker push automatedtestingservice/java-tester:latest
+    - |
+      curl -X POST "https://cs.ttu.ee/services/arete/api/v2/course/java-tester" -H "accept: */*" -H "X-Docker-Token: java-tester $ARETE_TOKEN"
+  only:
+    - master
+
+deploy_11:
+  tags:
+    - ained
+  stage: deploy
+  script:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker build -f Dockerfile_arete_11 -t automatedtestingservice/java11-tester:latest .
+    - docker push automatedtestingservice/java11-tester:latest
+    - |
+      curl -X POST "https://cs.ttu.ee/services/arete/api/v2/course/java11-tester" -H "accept: */*" -H "X-Docker-Token: java-tester $ARETE_TOKEN"
+  only:
+    - master
+
+deploy_13:
+  tags:
+    - ained
+  stage: deploy
+  script:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker build -f Dockerfile_arete_13 -t automatedtestingservice/java13-tester:latest .
+    - docker push automatedtestingservice/java13-tester:latest
+    - |
+      curl -X POST "https://cs.ttu.ee/services/arete/api/v2/course/java13-tester" -H "accept: */*" -H "X-Docker-Token: java-tester $ARETE_TOKEN"
+  only:
+    - master
+
+deploy_15:
+  tags:
+    - ained
+  stage: deploy
+  script:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker build -f Dockerfile_arete_15 -t automatedtestingservice/java15-tester:latest .
+    - docker push automatedtestingservice/java15-tester:latest
+    - |
+      curl -X POST "https://cs.ttu.ee/services/arete/api/v2/course/java15-tester" -H "accept: */*" -H "X-Docker-Token: java-tester $ARETE_TOKEN"
+  only:
+    - master

@@ -72,7 +72,7 @@ jar {
 
 docker {
     if (project.hasProperty("areteEnv")) {
-        dockerfile file('Dockerfile_arete')
+        dockerfile file('Dockerfile_arete_latest')
         if (areteEnv == "master") {
             name "hodor_java11"
         } else {
