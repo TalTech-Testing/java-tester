@@ -1,8 +1,11 @@
-FROM openjdk:11-jdk
+FROM openjdk:11-jdk AS build
 MAINTAINER Enrico Vompa <envomp@taltech.ee>
 LABEL Description="Hodor Java 11 with StudentTester with Arete-compatible entrypoint"
 
-RUN ./gradlew jar
-COPY build/libs/studenttester-core-2.0.jar StudentTester.jar
+ADD . .
+RUN chmod +x gradlew && ./gradlew jar
+
+FROM openjdk:11-jdk
+COPY --from=build build/libs/studenttester-core-2.0.jar StudentTester.jar
 
 ENTRYPOINT [ "bash", "-c", "TIMEVAR=$(date +%s%N); TMPD=$(mktemp -d); cd $TMPD; java -jar /StudentTester.jar -i /host/input.json -o /host/output.json -tmp $TMPD -r FILEWRITER,COMPILER,TESTNG,CHECKSTYLE,REPORT -jsontxt > >(tee /log/$TIMEVAR-stdout.log) 2> >(tee /log/$TIMEVAR-stderr.log >&2)" ]
