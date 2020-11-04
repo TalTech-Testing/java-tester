@@ -2,7 +2,7 @@ FROM openjdk:13-jdk
 MAINTAINER Enrico Vompa <envomp@taltech.ee>
 LABEL Description="Hodor Java 13 with StudentTester with Arete-compatible entrypoint"
 
-RUN gradlew jar
+RUN ./gradlew jar
 COPY build/libs/studenttester-core-2.0.jar StudentTester.jar
 
 ENTRYPOINT [ "bash", "-c", "TIMEVAR=$(date +%s%N); TMPD=$(mktemp -d); cd $TMPD; java -jar /StudentTester.jar -i /host/input.json -o /host/output.json -tmp $TMPD -r FILEWRITER,COMPILER,TESTNG,CHECKSTYLE,REPORT -jsontxt > >(tee /log/$TIMEVAR-stdout.log) 2> >(tee /log/$TIMEVAR-stderr.log >&2)" ]
